@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from urllib.parse import urljoin, quote, unquote
 
 import requests
-from requests import post, RequestException
+from requests import RequestException
 from requests.cookies import RequestsCookieJar, merge_cookies, cookiejar_from_dict
 from websocket import create_connection
 from loguru import logger
@@ -167,11 +167,11 @@ class ZhiHuiShu:
         self.username = json_data['data']['username']
         self.uuid = json_data['data']['uuid']
 
-    def video_list(self, recruit_and_course_id, uuid: str):
+    def video_list(self, recruit_and_course_id):
         date_format = get_time()
         uuid = self.uuid
 
-        response = post(url='https://studyservice.zhihuishu.com/learning/videolist', data={
+        response = self.post(url='https://studyservice.zhihuishu.com/learning/videolist', data={
             'recruitAndCourseId': recruit_and_course_id,
             'uuid': uuid,
             'dateFormate': date_format
@@ -180,7 +180,7 @@ class ZhiHuiShu:
         json_data = response.json()
 
         if 'code' not in json_data or json_data['code'] != 0:
-            raise RuntimeError('不能获得video list, {}', json_data)
+            raise RuntimeError('不能获得video list', json_data)
 
         return json_data['data']
 
@@ -203,43 +203,40 @@ class ZhiHuiShu:
                 lesson_form.append(section['id'])
                 for small_lesson in section['videoSmallLessons']:
                     lv_form.append(small_lesson['id'])
-        ic(lesson_form)
-        ic(lv_form)
 
-        lesson_form_text = '\n'.join(f'lessonIds[{index}]: {lid}' for lid, index in enumerate(lesson_form))
-        lv_form_text = '\n'.join(f'lessonIds[{index}]: {lid}' for lid, index in enumerate(lv_form))
+        form = {}
 
-        form = lesson_form_text + '\n' + lv_form_text
-        ic(form)
+        for index, lid in enumerate(lesson_form):
+            form[f'lessonIds[{index}]'] = lid
 
-        recruit_id = video_list['recruitId']
-        uuid = self.uuid
-        date_format = get_time()
+        for index, lid in enumerate(lv_form):
+            form[f'lessonVideoIds[{index}]'] = lid
 
-        response = self.post(url='https://studyservice.zhihuishu.com/learning/videolist', data=form)
+        form['recruitId'] = video_list['recruitId']
+        form['uuid'] = self.uuid
+        form['dateFormate'] = get_time()
+
+        response = self.post(url='https://studyservice.zhihuishu.com/learning/queryStuyInfo', data=form)
         response.raise_for_status()
-        ic(response)
 
         json_data = response.json()
         if 'code' not in json_data or json_data['code'] != 0:
             raise RuntimeError('不能获得学习状态, {}', json_data)
-        ic(json_data)
         return json_data
 
 
 if __name__ == '__main__':
     course_id = '4e50585944524258454a585858415f45'
     zhs = ZhiHuiShu()
-    zhs.set_cookies('CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole'
-                    '%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2'
-                    'Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBk'
-                    'Po%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; exitReco'
-                    'd_Xk5lBkPo=2; CASTGC=TGT-2130153-kapStLvDF13KmIzPEOegms51xAnZeNr0HGAobxwWqYnymv3O5B-passport.zhih'
-                    'uishu.com; acw_tc=2f624a6316198474101114335e1fea6da5f09f58a23b56d4e170e426414c33; SESSION=YTY5ZmZ'
-                    'hZGMtZTgxNi00NjcyLWI3ZjYtZjhjMzQ4ZWQ4MzE3; SERVERID=472b148b148a839eba1c5c1a8657e3a7|1619847410|1'
-                    '619836247')
+    zhs.set_cookies(
+        'CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole'
+        '%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2'
+        'Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBk'
+        'Po%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; exitReco'
+        'd_Xk5lBkPo=2; CASTGC=TGT-2130153-kapStLvDF13KmIzPEOegms51xAnZeNr0HGAobxwWqYnymv3O5B-passport.zhih'
+        'uishu.com; acw_tc=2f624a6316198474101114335e1fea6da5f09f58a23b56d4e170e426414c33; SESSION=YTY5ZmZ'
+        'hZGMtZTgxNi00NjcyLWI3ZjYtZjhjMzQ4ZWQ4MzE3; SERVERID=472b148b148a839eba1c5c1a8657e3a7|1619847410|1'
+        '619836247')
     zhs.get_user_info()
 
-
-    ic(zhs)
-    ic(zhs.real_name, zhs.uuid, zhs.username)
+    video_list = zhs.video_list(course_id)
