@@ -1,13 +1,15 @@
+import time
 from time import sleep
 from functools import wraps
 from json import dumps, loads
 from typing import List, Tuple, Union, Optional, Dict
 from base64 import b64decode, b64encode
 from datetime import datetime, timedelta
+from urllib.parse import urljoin, quote, unquote
 
 import requests
 from requests import post, RequestException
-from requests.cookies import RequestsCookieJar, merge_cookies
+from requests.cookies import RequestsCookieJar, merge_cookies, cookiejar_from_dict
 from websocket import create_connection
 from loguru import logger
 from icecream import ic
@@ -22,10 +24,10 @@ try:
 
 except ImportError:
     def show_qr(img_path='qrcode.jpg'):
-        ...
+        logger.info('没有安装pillow不能自动打开图片, 手动扫描qrcode.jpg')
 
 
-    logger.info('没有安装pillow')
+    logger.info('没有安装pillow不能自动打开图片, 手动扫描qrcode.jpg')
 
 
 class DateTimeTimer:
@@ -49,9 +51,18 @@ class DateTimeTimer:
         return bool(self.start_time + self.delta > datetime.now())
 
 
+def get_time(length=13):
+    return str(time.time()).replace('.', '')[:length]
+
+
 class ZhiHuiShu:
     headers: Dict
     client: requests.Session
+
+    # user info
+    real_name: str
+    username: str
+    uuid: str
 
     def __init__(self):
         self.client = requests.Session()
@@ -72,6 +83,23 @@ class ZhiHuiShu:
             'Upgrade-Insecure-Requests': '1'
         }.update(kwargs['headers'] if 'headers' in kwargs else {})
         return self.client.get(*args, **kwargs)
+
+    @wraps(requests.post)
+    def post(self, *args, **kwargs):
+        # kwargs.setdefault('cookies', cookies)
+        kwargs['headers'] = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.3'
+                          '6 (KHTML, like Gecko) Chrome/90.0.4430.93 Safari/537.36',
+
+            'sec-ch-ua': '" Not A;Brand";v="99", "Chromium";v="90", "Google Chrome";v="90"',
+            'sec-ch-ua-mobile': '?0',
+            'Sec-Fetch-Dest': 'document',
+            'Sec-Fetch-Mode': 'navigate',
+            'Sec-Fetch-Site': 'none',
+            'Sec-Fetch-User': '?1',
+            'Upgrade-Insecure-Requests': '1'
+        }.update(kwargs['headers'] if 'headers' in kwargs else {})
+        return self.client.post(*args, **kwargs)
 
     def get_qr(self) -> str:
         # get qrcode
@@ -115,6 +143,7 @@ class ZhiHuiShu:
             raise RuntimeError('登录失败, 未知错误')
 
     def login(self):
+        """login and get user info"""
         # get qr_code
         qr_token = self.get_qr()
         logger.info(f'qr_token 为 [{qr_token}]')
@@ -123,19 +152,94 @@ class ZhiHuiShu:
 
         password, uuid = self.wait_scan(qr_token)
         logger.info('临时密码 [{}], uuid: [{}]', password, uuid)
+        self.get_user_info()
         self.login_pwd(password, uuid)
 
     def get_user_info(self):
-        url = 'https://onlineservice.zhihuishu.com/login/getLoginUserInfo'
+        """get user info"""
+        url = f'https://studyservice.zhihuishu.com/login/getLoginUserInfo?dateFormate={get_time()}'
         response = self.get(url)
 
-        ic(response.cookies, response.headers)
-
         response.raise_for_status()
-        json_data = dumps(response.json(), ensure_ascii=False)
+        json_data = response.json()
+
+        self.real_name = json_data['data']['realName']
+        self.username = json_data['data']['username']
+        self.uuid = json_data['data']['uuid']
+
+    def video_list(self, recruit_and_course_id, uuid: str):
+        date_format = get_time()
+        uuid = self.uuid
+
+        response = post(url='https://studyservice.zhihuishu.com/learning/videolist', data={
+            'recruitAndCourseId': recruit_and_course_id,
+            'uuid': uuid,
+            'dateFormate': date_format
+        })
+        response.raise_for_status()
+        json_data = response.json()
+
+        if 'code' not in json_data or json_data['code'] != 0:
+            raise RuntimeError('不能获得video list, {}', json_data)
+
+        return json_data['data']
+
+    def set_cookies(self, cookies: str):
+        a = cookies.split(';')
+        cookies = RequestsCookieJar()
+        for each in a:
+            k, v = each.split('=')
+            cookies[k] = v
+
+        self.client.cookies = cookies
+
+    def query_study_info(self, video_list: Dict):
+        # section
+        lesson_form = []
+        # small_lesson
+        lv_form = []
+        for chapter in video_list['videoChapterDtos']:
+            for section in chapter['videoLessons']:
+                lesson_form.append(section['id'])
+                for small_lesson in section['videoSmallLessons']:
+                    lv_form.append(small_lesson['id'])
+        ic(lesson_form)
+        ic(lv_form)
+
+        lesson_form_text = '\n'.join(f'lessonIds[{index}]: {lid}' for lid, index in enumerate(lesson_form))
+        lv_form_text = '\n'.join(f'lessonIds[{index}]: {lid}' for lid, index in enumerate(lv_form))
+
+        form = lesson_form_text + '\n' + lv_form_text
+        ic(form)
+
+        recruit_id = video_list['recruitId']
+        uuid = self.uuid
+        date_format = get_time()
+
+        response = self.post(url='https://studyservice.zhihuishu.com/learning/videolist', data=form)
+        response.raise_for_status()
+        ic(response)
+
+        json_data = response.json()
+        if 'code' not in json_data or json_data['code'] != 0:
+            raise RuntimeError('不能获得学习状态, {}', json_data)
         ic(json_data)
+        return json_data
 
 
-zhs = ZhiHuiShu()
-zhs.login()
-zhs.get_user_info()
+if __name__ == '__main__':
+    course_id = '4e50585944524258454a585858415f45'
+    zhs = ZhiHuiShu()
+    zhs.set_cookies('CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole'
+                    '%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2'
+                    'Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBk'
+                    'Po%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; exitReco'
+                    'd_Xk5lBkPo=2; CASTGC=TGT-2130153-kapStLvDF13KmIzPEOegms51xAnZeNr0HGAobxwWqYnymv3O5B-passport.zhih'
+                    'uishu.com; acw_tc=2f624a6316198474101114335e1fea6da5f09f58a23b56d4e170e426414c33; SESSION=YTY5ZmZ'
+                    'hZGMtZTgxNi00NjcyLWI3ZjYtZjhjMzQ4ZWQ4MzE3; SERVERID=472b148b148a839eba1c5c1a8657e3a7|1619847410|1'
+                    '619836247')
+    zhs.get_user_info()
+
+
+    ic(zhs)
+    ic(zhs.real_name, zhs.uuid, zhs.username)
