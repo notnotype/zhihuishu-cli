@@ -449,7 +449,7 @@ class ZhiHuiShu:
         else:
             raise RuntimeError('没有可用的视频线路', json_data)
 
-    def start_watch(self, lesson_id, video_list: Dict, study_info: Dict, pre_note_info: Dict):
+    def start_watch_blocking(self, lesson_id, video_list: Dict, study_info: Dict, pre_note_info: Dict):
         """
 
         :param pre_note_info:
@@ -567,21 +567,23 @@ class ZhiHuiShu:
         job_submit_progress = scheduler.add_job(
             save_database, 'interval', seconds=10
         )
-        # todo 自动随堂测试
 
         scheduler.start()
         logger.info('完成视频!')
 
 
-class ZhiHuiShuSchedule:
-    def __init__(
-            self, course_id: str, video_list: Dict, study_info: Dict,
-            pre_learning_note: Dict
-    ):
-        ...
+class ZhiHuiShuCourseWorkerBlocking:
+    def __init__(self, course_id: str):
+        self.course_id = course_id
+
+        self.scheduler = BlockingScheduler()
+        self.scheduler.add_job(self.job, 'cron', hour=7)
 
     def from_local_file(self, file_name: str):
         ...
+
+    def job(self):
+        sleep(random.randrange(0, 1000))
 
     def start(self):
         ...
@@ -599,7 +601,7 @@ if __name__ == '__main__':
     si = zhs.query_study_info(vl)
 
     pln = zhs.pre_learning_note(1000244451, vl, si)
-    zhs.start_watch(1000244451, vl, si, pln)
+    zhs.start_watch_blocking(1000244451, vl, si, pln)
 
     # zhs.submit_progress(
     #     1000219376, vl, si, pln, 5, 1600, '0,1,245,245,246,247'
