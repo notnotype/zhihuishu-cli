@@ -115,6 +115,8 @@ class ZhiHuiShu:
             'Sec-Fetch-User': '?1',
             'Upgrade-Insecure-Requests': '1'
         }.update(kwargs['headers'] if 'headers' in kwargs else {})
+        for each in self.client.cookies:
+            each.path = '/'
         return self.client.get(*args, **kwargs)
 
     @wraps(requests.post)
@@ -132,6 +134,8 @@ class ZhiHuiShu:
             'Sec-Fetch-User': '?1',
             'Upgrade-Insecure-Requests': '1'
         }.update(kwargs['headers'] if 'headers' in kwargs else {})
+        for each in self.client.cookies:
+            each.path = '/'
         return self.client.post(*args, **kwargs)
 
     def get_qr(self) -> str:
@@ -175,6 +179,11 @@ class ZhiHuiShu:
         response.raise_for_status()
         if len(response.history) < 2:
             raise RuntimeError('登录失败, 未知错误')
+        url = 'https://passport.zhihuishu.com/login?service=' \
+              'http%3A%2F%2Fstudyservice.zhihuishu.com%2Flogin%2Fgologin'
+        response = self.get(url)
+        response.raise_for_status()
+        ic(response)
 
     def login(self):
         """login and get user info"""
@@ -186,13 +195,14 @@ class ZhiHuiShu:
 
         password, uuid = self.wait_scan(qr_token)
         logger.info('临时密码 [{}], uuid: [{}]', password, uuid)
-        self.get_user_info()
         self.login_pwd(password, uuid)
+        self.get_user_info()
 
     def get_user_info(self):
         """get user info"""
-        url = f'https://studyservice.zhihuishu.com/login/getLoginUserInfo?dateFormate={get_time()}'
+        url = f'https://onlineservice.zhihuishu.com/login/getLoginUserInfo'
         response = self.get(url)
+        ic(self.client.cookies)
 
         response.raise_for_status()
         json_data = response.json()
@@ -200,9 +210,9 @@ class ZhiHuiShu:
         if json_data['code'] != 200:
             raise RuntimeError('不能获取用户信息', json_data)
 
-        self.real_name = json_data['data']['realName']
-        self.username = json_data['data']['username']
-        self.uuid = json_data['data']['uuid']
+        self.real_name = json_data['result']['realName']  # data
+        self.username = json_data['result']['username']
+        self.uuid = json_data['result']['uuid']
 
     def video_list(self, recruit_and_course_id):
         date_format = get_time()
@@ -266,7 +276,6 @@ class ZhiHuiShu:
         from mp4info import Mp4info
         file = Mp4info(url)
         length = file.get_duration()
-        ic(url, length)
         return length
 
     def decrypt_fun_ev(
@@ -278,7 +287,6 @@ class ZhiHuiShu:
             recruit_id, section_id, lesson_id, video_id, chapter_id,
             study_status, play_time, total_study_time, video_progress
         ]})''')
-        ic(result)
         return result
 
     @staticmethod
@@ -287,7 +295,6 @@ class ZhiHuiShu:
         h = total_study_real_time // 60
         m = total_study_real_time - 60 * h
         progress = f'{int(h)}:{str(int(m))}'
-        ic(progress)
         return progress
 
     def submit_progress(
@@ -325,12 +332,6 @@ class ZhiHuiShu:
                         section_id = section['id']
                         chapter_id = chapter['id']
                         video_id = lesson['videoId']
-                        logger.info(
-                            'course_id: {}, chapter_id: {}, section_id: {}, '
-                            'lesson_id: {}, video_id: {} lessonName: {}',
-                            chapter_id, chapter_id, section_id, lesson_id,
-                            video_id, lesson['name']
-                        )
                         flag = True
                         break
         if not flag:
@@ -361,16 +362,17 @@ class ZhiHuiShu:
             'dateFormate': get_time()
         }
 
-        ic([recruit_id, section_id, lesson_id, video_id, chapter_id,
-            study_status, int(play_time), int(total_study_time), video_progress])
-        ic(form)
+        logger.debug([recruit_id, section_id, lesson_id, video_id, chapter_id,
+                      study_status, int(play_time), int(total_study_time), video_progress])
+        logger.debug(form)
 
         response = self.post(
             'https://studyservice.zhihuishu.com/learning/saveDatabaseIntervalTime',
             data=form
         )
         response.raise_for_status()
-        ic(response.json())
+        json_data = response.json()
+        logger.info(json_data['message'] if 'message' in json_data else json_data)
 
     def pre_learning_note(self, lesson_id: int, video_list: Dict, study_info: Dict):
         """pre_learning_note"""
@@ -407,10 +409,6 @@ class ZhiHuiShu:
                         section_id = section['id']
                         video_id = lesson['videoId']
                         lesson_name = lesson['name']
-                        logger.info(
-                            'course_id: {}, chapter_id: {}, section_id: {}, '
-                            'lesson_id: {}, video_id: {} lessonName: {}',
-                        )
                         flag = True
                         break
         if not flag:
@@ -427,8 +425,6 @@ class ZhiHuiShu:
             'uuid': self.uuid,
             'dateFormate': get_time()
         }
-
-        ic(form)
 
         url = 'https://studyservice.zhihuishu.com/learning/prelearningNote'
         response = self.post(url, data=form)
@@ -492,31 +488,33 @@ class ZhiHuiShu:
             if 'learnTimeSec' in pre_note_info else 0  # 本次视频放了多长
         }
 
-        ic(pre_note_info)
+        logger.debug(pre_note_info)
         this['total_study_time'] = study_info['lv'][str(lesson_id)]['studyTotalTime']
 
-        logger.info('从{}s处开始继续', this['total_study_time'])
+        logger.info('从{}s处开始继续', this['video_progress'])
         # get video id
         video_id = None
         lesson_name = None
         study_status = study_info['lv'][str(lesson_id)]['watchState']
-        ic(study_status)
+        logger.info('学习状态 {}', study_status)
 
-        # chapter = None
-        # section = None
-        # lesson = None
+        chapter_id = None
+        lesson_id = lesson_id
+        section_id = None
+        video_id = None
+
+        chapter = None
+        section = None
+        lesson = None
 
         flag = False
         for chapter in video_list['videoChapterDtos']:
             for section in chapter['videoLessons']:
                 for lesson in section['videoSmallLessons']:
                     if lesson['id'] == lesson_id:
+                        section_id = section['id']
+                        chapter_id = chapter['id']
                         video_id = lesson['videoId']
-                        lesson_name = lesson['name']
-                        logger.info(
-                            'course_id: {}, chapter_id: {}, section_id: {}, '
-                            'lesson_id: {}, video_id: {} lessonName: {}',
-                        )
                         flag = True
                         break
         if not flag:
@@ -528,6 +526,12 @@ class ZhiHuiShu:
         video_length = self.get_mp4_len(video_url)
 
         logger.info(f'开始播放课程: 名字{lesson_name}')
+        logger.info(
+            'course_id: {}, chapter_id: {}, section_id: {}, '
+            'lesson_id: {}, video_id: {} lessonName: {}',
+            chapter_id, chapter_id, section_id, lesson_id,
+            video_id, lesson['name']
+        )
 
         def detect_finish():
             ic(this['video_progress'], video_length)
@@ -538,13 +542,11 @@ class ZhiHuiShu:
 
         def learning_time_record():
             this['watch_point_post'] += ',' + str(int(this['total_study_time']) // 5 + 2)
-            ic(this['watch_point_post'])
 
         def total_study_time_fun():
             this['total_study_time'] += 5 * this['play_rate']
             this['video_progress'] += 4.99 * this['play_rate']
             this['play_time'] += 5 * this['play_rate']
-            ic(this)
 
         def save_database():
             self.submit_progress(lesson_id, vl, si, pln, int(this['play_time']),
@@ -560,30 +562,44 @@ class ZhiHuiShu:
             total_study_time_fun, 'interval', seconds=4.99
         )
         job_detect_finish = scheduler.add_job(
-            detect_finish, 'interval', seconds=1
+            detect_finish, 'interval', seconds=1.5
         )
         job_submit_progress = scheduler.add_job(
             save_database, 'interval', seconds=10
         )
+        # todo 自动随堂测试
 
         scheduler.start()
+        logger.info('完成视频!')
 
-        ic('finished')
+
+class ZhiHuiShuSchedule:
+    def __init__(
+            self, course_id: str, video_list: Dict, study_info: Dict,
+            pre_learning_note: Dict
+    ):
+        ...
+
+    def from_local_file(self, file_name: str):
+        ...
+
+    def start(self):
+        ...
 
 
 if __name__ == '__main__':
     course_recruit_id = '4e50585944524258454a585858415f45'
     zhs = ZhiHuiShu()
-    zhs.set_cookies(
-        'CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBkPo%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; exitRecod_Xk5lBkPo=2; acw_tc=2f624a2d16199180617676413e4355e30123ef1602c95d2074ce14879b6c70; CASTGC=TGT-2244870-YHq5uwq6i17XBWNe1SpOAtukdA24EODkd5jBSdOT63HXKPQ5Sw-passport.zhihuishu.com; SESSION=NjMyOTRlMDktMTQxNi00YzY4LTlkMmEtYWY1NDQ1M2Y2OWRh; SERVERID=4516a494fea80bcfc392e5b45dea0690|1619918119|1619918061'
-    )
-    zhs.get_user_info()
+    # zhs.set_cookies(
+    #     'CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBkPo%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; exitRecod_Xk5lBkPo=2; acw_tc=2f624a2d16199180617676413e4355e30123ef1602c95d2074ce14879b6c70; CASTGC=TGT-2244870-YHq5uwq6i17XBWNe1SpOAtukdA24EODkd5jBSdOT63HXKPQ5Sw-passport.zhihuishu.com; SESSION=NjMyOTRlMDktMTQxNi00YzY4LTlkMmEtYWY1NDQ1M2Y2OWRh; SERVERID=4516a494fea80bcfc392e5b45dea0690|1619918119|1619918061'
+    # )
+    zhs.login()
 
     vl = zhs.video_list(course_recruit_id)
     si = zhs.query_study_info(vl)
 
-    pln = zhs.pre_learning_note(1000219379, vl, si)
-    zhs.start_watch(1000219379, vl, si, pln)
+    pln = zhs.pre_learning_note(1000244451, vl, si)
+    zhs.start_watch(1000244451, vl, si, pln)
 
     # zhs.submit_progress(
     #     1000219376, vl, si, pln, 5, 1600, '0,1,245,245,246,247'
