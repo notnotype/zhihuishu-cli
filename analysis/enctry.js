@@ -1,4 +1,4 @@
-
+// 加密 js 函数
 a = {
     _a: "AgrcepndtslzyohCia0uS@",
     _b: "A0ilndhga@usreztoSCpyc",
