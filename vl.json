@@ -1,0 +1,1521 @@
+{
+  "recruitId": 48111,
+  "courseId": 1000010466,
+  "videoChapterDtos": [
+    {
+      "id": 1000107260,
+      "name": "凭栏静听潇潇雨：中华民族寻梦、追梦、圆梦的历史征程",
+      "orderNumber": 1,
+      "description": "本专题主要介绍《中国近现代史纲要：专题及问题》是一门什么性质的课和学习这门课会收获什么、学习思路和学习方法以及历史线索和专题设置。",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299390,
+          "name": "“中国近现代史纲要-专题及问题”带给我们什么？",
+          "orderNumber": 1,
+          "introduction": "本问题主要介绍：《中国近现代史纲要：专题及问题》是一门什么性质的课和学习这门课会收获什么。",
+          "chapterId": 1000107260,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219376,
+              "name": "中国近现代史纲要-专题及问题 带给我们什么？（上）",
+              "orderNumber": 1,
+              "lessonId": 1000299390,
+              "videoId": 11939815,
+              "videoSec": 1210,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219411,
+              "name": "中国近现代史纲要-专题及问题 带给我们什么？（中）",
+              "orderNumber": 2,
+              "lessonId": 1000299390,
+              "videoId": 11939765,
+              "videoSec": 689,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219421,
+              "name": "中国近现代史纲要-专题及问题 带给我们什么？（下）",
+              "orderNumber": 3,
+              "lessonId": 1000299390,
+              "videoId": 11939761,
+              "videoSec": 409,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299402,
+          "name": "“中国近现代史纲要-专题及问题”应该怎么学？",
+          "orderNumber": 2,
+          "introduction": "本问题主要介绍：《中国近现代史纲要：专题及问题》的学习思路和学习方法。",
+          "chapterId": 1000107260,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219377,
+              "name": "中国近现代史纲要-专题及问题 应该怎么学？（上）",
+              "orderNumber": 1,
+              "lessonId": 1000299402,
+              "videoId": 11939777,
+              "videoSec": 595,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219412,
+              "name": "中国近现代史纲要-专题及问题 应该怎么学？（中）",
+              "orderNumber": 2,
+              "lessonId": 1000299402,
+              "videoId": 11939827,
+              "videoSec": 796,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219422,
+              "name": "中国近现代史纲要-专题及问题 应该怎么学？（下）",
+              "orderNumber": 3,
+              "lessonId": 1000299402,
+              "videoId": 11939783,
+              "videoSec": 516,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299414,
+          "name": "“中国近现代史纲要-专题及问题”的基本线索？",
+          "orderNumber": 3,
+          "introduction": "本问题主要介绍：《中国近现代史纲要：专题及问题》的历史线索和专题设置。",
+          "chapterId": 1000107260,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219378,
+              "name": "中国近现代史纲要-专题及问题 的基本线索",
+              "orderNumber": 1,
+              "lessonId": 1000299414,
+              "videoId": 11939853,
+              "videoSec": 858,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760660,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025966,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/wM40d1ax/ePaO4zZ5/1000010466/5355/0"
+      }
+    },
+    {
+      "id": 1000107261,
+      "name": "高天滚滚寒流急：西方列强的侵略与中国半殖民地半封建社会的形成",
+      "orderNumber": 2,
+      "description": "高天滚滚寒流急：西方列强的侵略与中国半殖民地半封建社会的形成",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299391,
+          "name": "西方列强对中国的侵略",
+          "orderNumber": 1,
+          "introduction": "本问题主要介绍：中国“一步一步”地变为半殖民地半封建社会的过程是与资本—帝国主义对中国的侵略战争紧密地联系在一起的。",
+          "chapterId": 1000107261,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219379,
+              "name": "中国半殖民地半封建社会的逐步形成",
+              "orderNumber": 1,
+              "lessonId": 1000299391,
+              "videoId": 11939847,
+              "videoSec": 723,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299403,
+          "name": "鸦片战争前的中国与世界",
+          "orderNumber": 2,
+          "introduction": "本问题主要介绍资本—帝国主义的侵略给中国带来的影响。",
+          "chapterId": 1000107261,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219380,
+              "name": "资本帝国主义的侵略给中国带来了什么？",
+              "orderNumber": 1,
+              "lessonId": 1000299403,
+              "videoId": 11939845,
+              "videoSec": 744,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299415,
+          "name": "中华民族的反侵略斗争",
+          "orderNumber": 3,
+          "introduction": "本问题主要介绍：近代中国反侵略战争屡遭失败的原因和近代中华民族意识觉醒的演进历程。",
+          "chapterId": 1000107261,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219381,
+              "name": "近代中国反侵略战争为什么屡遭失败？",
+              "orderNumber": 1,
+              "lessonId": 1000299415,
+              "videoId": 11939863,
+              "videoSec": 759,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219413,
+              "name": "近代中华民族意识的觉醒",
+              "orderNumber": 2,
+              "lessonId": 1000299415,
+              "videoId": 11939841,
+              "videoSec": 828,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760646,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025957,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/yNdDA6aQ/yo6J3P05/1000010466/5355/0"
+      }
+    },
+    {
+      "id": 1000107262,
+      "name": "大地微微暖气吹：农民阶级与地主阶级为何不能救中国",
+      "orderNumber": 3,
+      "description": "本专题通过讲授太平天国是旧式农民战争和太平天国运动提出的绝对平均主张，使学生认识到单纯的农民战争不可能完成争取民族独立和人民解放的历史任务；通过讲授洋务运动的历史意义、失败原因、历史教训和洋务运动提出的中体西用的主张，使学生认识到洋务运动不可能为中国摆脱贫弱找到出路。",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299392,
+          "name": "天京事变与太平天国农民起义的历史意义",
+          "orderNumber": 1,
+          "introduction": "本问题主要介绍：太平天国为什么是旧式农民战争的最高峰和农民阶级的绝对平均主义主张不能救中国。",
+          "chapterId": 1000107262,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219382,
+              "name": "太平天国是旧式农民战争的最高峰",
+              "orderNumber": 1,
+              "lessonId": 1000299392,
+              "videoId": 11939867,
+              "videoSec": 906,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219414,
+              "name": "绝对平均主义的主张不能救中国",
+              "orderNumber": 2,
+              "lessonId": 1000299392,
+              "videoId": 11939843,
+              "videoSec": 798,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299404,
+          "name": "洋务运动的兴衰",
+          "orderNumber": 2,
+          "introduction": "本问题主要介绍：洋务运动发生的背景、积极作用及其失败原因和封建地主阶级提出的“中体西用”的主张为什么不能救中国。",
+          "chapterId": 1000107262,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219383,
+              "name": "中体西用的主张不能救中国",
+              "orderNumber": 1,
+              "lessonId": 1000299404,
+              "videoId": 11939871,
+              "videoSec": 742,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219415,
+              "name": "洋务运动及其失败",
+              "orderNumber": 2,
+              "lessonId": 1000299404,
+              "videoId": 11939857,
+              "videoSec": 810,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760651,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025958,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/wVxVX9vA/elLAXxVe/1000010466/5355/0"
+      }
+    },
+    {
+      "id": 1000107263,
+      "name": "一阵风雷惊宇宙：资产阶级方案在中国行不通",
+      "orderNumber": 4,
+      "description": "本专题主要介绍资产阶级维新派与革命派对国家出路的探索情况，着重分析资产阶级方案在中国行不通的原因。",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299393,
+          "name": "戊戌维新运动的开展",
+          "orderNumber": 1,
+          "introduction": "本问题主要介绍戊戌维新运动兴起的历史背景、物质条件、思想基础，以及戊戌维新运动的进展。",
+          "chapterId": 1000107263,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219384,
+              "name": "维新运动兴起的历史条件",
+              "orderNumber": 1,
+              "lessonId": 1000299393,
+              "videoId": 11939785,
+              "videoSec": 552,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299405,
+          "name": "戊戌维新运动的意义与教训",
+          "orderNumber": 2,
+          "introduction": "本问题主要分析戊戌维新运动失败的主、客观原因及深层原因。",
+          "chapterId": 1000107263,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219385,
+              "name": "维新运动失败的原因",
+              "orderNumber": 1,
+              "lessonId": 1000299405,
+              "videoId": 11939817,
+              "videoSec": 713,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299416,
+          "name": "辛亥革命与建立民国",
+          "orderNumber": 3,
+          "introduction": "本问题主要介绍辛亥革命的进程，分析辛亥革命的重要意义。",
+          "chapterId": 1000107263,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219386,
+              "name": "辛亥革命是20世纪中国的第一次历史性巨变",
+              "orderNumber": 1,
+              "lessonId": 1000299416,
+              "videoId": 11939811,
+              "videoSec": 622,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299422,
+          "name": "辛亥革命的失败",
+          "orderNumber": 4,
+          "introduction": "本问题结合三民主义纲领，主要分析资产阶级共和国方案在中国行不通的根本原因、主客观原因。",
+          "chapterId": 1000107263,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219387,
+              "name": "资产阶级共和国方案行不通",
+              "orderNumber": 1,
+              "lessonId": 1000299422,
+              "videoId": 11939799,
+              "videoSec": 686,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760665,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025963,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/56nOoAk8/5pLMVxJ5/1000010466/5355/0"
+      }
+    },
+    {
+      "id": 1000107264,
+      "name": "开天辟地大事变：历史和人民选择了马克思主义",
+      "orderNumber": 5,
+      "description": "本专题主要内容：了解新文化运动和五四运动的历史进程；理解中国人民接受马克思主义是内外因素综合作用的结果；认识中国共产党成立给中国社会带来的深刻变化。",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299394,
+          "name": "新文化运动",
+          "orderNumber": 1,
+          "introduction": "本问题主要介绍：新文化运动的兴起在于一些先进的中国知识分子认为“欲图根本之救亡”，必须改造中国的国民性，以一场反封建的思想解放运动来廓清蒙昧、启发理智，使人们从封建思想的束缚中解放出来。但单纯提倡资产阶级民主主义的新文化不能根本改造中国。",
+          "chapterId": 1000107264,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219388,
+              "name": "早期新文化运动的兴起与反思",
+              "orderNumber": 1,
+              "lessonId": 1000299394,
+              "videoId": 11939809,
+              "videoSec": 578,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299406,
+          "name": "五四运动",
+          "orderNumber": 2,
+          "introduction": "本问题主要介绍：巴黎和会中国外交的失败使中国的先进分子进一步认识到资产阶级共和国的方案在中国行不通，他们开始在十月革命的影响下，从资产阶级民主主义转向社会主义。",
+          "chapterId": 1000107264,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219389,
+              "name": "五四前后救国道路的选择",
+              "orderNumber": 1,
+              "lessonId": 1000299406,
+              "videoId": 11939797,
+              "videoSec": 486,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219416,
+              "name": "“问题与主义”之争与马克思主义的进一步传播",
+              "orderNumber": 2,
+              "lessonId": 1000299406,
+              "videoId": 11939795,
+              "videoSec": 516,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299417,
+          "name": "中国共产党的诞生",
+          "orderNumber": 3,
+          "introduction": "本问题主要介绍：中国共产党的成立，深刻改变了近代以后中华民族发展的方向和进程，深刻改变了中国人民和中华民族的前途和命运，深刻改变了世界发展的趋势和格局。",
+          "chapterId": 1000107264,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219390,
+              "name": "中国共产党的成立",
+              "orderNumber": 1,
+              "lessonId": 1000299417,
+              "videoId": 11939791,
+              "videoSec": 493,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760659,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025964,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/wn4mJAK2/w1vWbVZe/1000010466/5355/0"
+      }
+    },
+    {
+      "id": 1000107265,
+      "name": "雄关漫道真如铁：中国革命新道路的开辟",
+      "orderNumber": 6,
+      "description": "本专题主要内容：了解国民党政权的阶级性质、内外政策及其统治下的社会经济状况，懂得进行土地革命战争的必要性、正义性与进步性。了解中国共产党开辟中国革命新道路的艰难历程，学习毛泽东关于农村包围城市，武装夺取政权的革命道路理论，领会把马克思主义基本原理与中国革命具体实践相结合的重要性。",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299395,
+          "name": "土地革命战争的严重挫折",
+          "orderNumber": 1,
+          "introduction": "本问题主要介绍：中国革命的复兴和发展并不是一帆风顺。从1927年7月大革命失败到1935年1月遵义会议召开之前，“左”倾错误先后三次在党中央的领导机关取得了统治地位。",
+          "chapterId": 1000107265,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219391,
+              "name": "中国共产党在土地革命战争时期的三次左倾错误",
+              "orderNumber": 1,
+              "lessonId": 1000299395,
+              "videoId": 11939833,
+              "videoSec": 738,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299407,
+          "name": "中国革命的历史性转折",
+          "orderNumber": 2,
+          "introduction": "本问题主要介绍：遵义会议开始确立以毛泽东为代表的马克思主义的正确路线在中共中央的领导地位，从而在极其危急的情况下挽救了中国共产党、挽救了中国工农红军、挽救了中国革命，成为了中国共产党历史上一个生死攸关的转折点。",
+          "chapterId": 1000107265,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219392,
+              "name": "中国革命新道路的探索和开辟",
+              "orderNumber": 1,
+              "lessonId": 1000299407,
+              "videoId": 11939859,
+              "videoSec": 877,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760655,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025955,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/yq6WvJ1G/yq1Mkpqy/1000010466/5355/0"
+      }
+    },
+    {
+      "id": 1000107266,
+      "name": "为有牺牲多壮志：中华民族抗日战争的伟大胜利",
+      "orderNumber": 7,
+      "description": "本专题主要内容：认清日本军国主义的侵华战争给中华民族造成的深重灾难，懂得抗日战争是近代以来中国人民第一次赢得完全胜利的民族解放战争，懂得帝国主义的武装侵略是必须打败、同时也是能够打败的。认识以国共两党第二次合作为基础的抗日民族统一战线的意义，了解国民党以及正面战场在抗日战争中的地位和作用。",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299396,
+          "name": "日本侵华战争的开始",
+          "orderNumber": 1,
+          "introduction": "本问题主要介绍：日本自从走上军国主义道路以后，就把侵略灭亡中国定为基本国策，并为此发动了一系列的侵华战争。面对日本帝国主义者的疯狂侵略，从1931年“九一八”事变到1945年8月日本宣布投降，中国人民进行了14年艰苦卓绝的抗日战争。本节，我们主要讲述日本灭亡中国的罪恶图谋和野蛮暴行，以及给中华民族带来的深重灾难。",
+          "chapterId": 1000107266,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219393,
+              "name": "日本侵华战争的开始",
+              "orderNumber": 1,
+              "lessonId": 1000299396,
+              "videoId": 11939831,
+              "videoSec": 701,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299408,
+          "name": "抗日民族统一战线的形成",
+          "orderNumber": 2,
+          "introduction": "本问题主要介绍：日本帝国主义的野蛮侵略，使中华民族处于生死存亡的严重关头，民族矛盾上升为主要矛盾。在此背景下，中国共产党顾全大局，以民族利益为重，毅然捐弃前嫌，倡导和推动第二次国共合作，最终促成了抗日民族统一战线的建立，为抗日战争的胜利奠定了坚实的政治基础。",
+          "chapterId": 1000107266,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219394,
+              "name": "抗日民族统一战线的形成",
+              "orderNumber": 1,
+              "lessonId": 1000299408,
+              "videoId": 11939835,
+              "videoSec": 800,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299418,
+          "name": "国民党与抗日的正面战场",
+          "orderNumber": 3,
+          "introduction": "本问题主要介绍：国民党在抗战初期表现出一定的抗日积极性。国民党军队先后进行淞沪、忻口、徐州及保卫武汉等一系列战役。其中，淞沪会战国民党投入兵力70万，歼敌4万多，尽管最终结果失败了，但粉碎了日本三个月灭亡中国的计划；在太原会战中，歼敌两万多，此次会战是国共两党精诚合作的典范；在徐州会战中，国民党取得了抗战以来第一次大胜仗——台儿庄大捷，歼敌一万多；在武汉会战中，国民党投入兵力100万，使抗战进入相持阶段。",
+          "chapterId": 1000107266,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219395,
+              "name": "国民党与抗日的正面战场",
+              "orderNumber": 1,
+              "lessonId": 1000299418,
+              "videoId": 11939805,
+              "videoSec": 745,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299423,
+          "name": "中国共产党成为抗日战争的中流砥柱",
+          "orderNumber": 4,
+          "introduction": "本问题主要介绍：中国共产党积极倡导、促成、维护抗日统一战线，最大限度动员全国军民共同抗战成为凝聚全民族抗战力量的杰出组织者和鼓舞者。以毛泽东为首的中国共产党人，把马克思列宁主义基本原理同中国具体实践相结合创立和发展了毛泽东思想。制定、实施了一套完整的抗战策略和方针，提出了全面抗战的路线、持久抗战和游击战争的战略思想，对抗战胜利发挥了重要作用。",
+          "chapterId": 1000107266,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219396,
+              "name": "中国共产党成为抗日战争的中流砥柱",
+              "orderNumber": 1,
+              "lessonId": 1000299423,
+              "videoId": 11939855,
+              "videoSec": 835,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299424,
+          "name": "抗日战争的胜利及其意义",
+          "orderNumber": 5,
+          "introduction": "本问题主要介绍：十四年抗战，中国四万万同胞，同仇敌忾，前仆后继，为着同一个目标：中国人绝不做亡国奴。胜利最终属于中国。抗日战争的胜利使中国的国际地位有了很大提高，推动了中国社会的进步，是中华民族走向复兴的转折点。",
+          "chapterId": 1000107266,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219397,
+              "name": "中国战场在世界反法西斯战争中的地位",
+              "orderNumber": 1,
+              "lessonId": 1000299424,
+              "videoId": 11939823,
+              "videoSec": 655,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760664,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025960,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/w1lYk1vm/wMaB3gaw/1000010466/5355/0"
+      }
+    },
+    {
+      "id": 1000107267,
+      "name": "敢叫日月换新天：历史和人民选择了中国共产党",
+      "orderNumber": 8,
+      "description": "本专题通过讲授淮海战役中国人民解放军战胜国民党军队的主要原因，使学生认识中国共产党全心全意为人民服务的唯一宗旨及群众路线的重要性；通过讲授中国共产党领导中国人民取得了民族独立，确立了社会主义制度，使学生认识到没有共产党就没有独立的新中国，没有共产党就没有社会主义的新中国。",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299397,
+          "name": "国民党政府处在全民的包围中",
+          "orderNumber": 1,
+          "introduction": "本问题主要介绍：淮海战役中历史和人民最终选择了中国共产党的原因。",
+          "chapterId": 1000107267,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219398,
+              "name": "唤起工农千百万：淮海战役的群众动员",
+              "orderNumber": 1,
+              "lessonId": 1000299397,
+              "videoId": 11939851,
+              "videoSec": 799,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299409,
+          "name": "创建人民民主专政的新中国",
+          "orderNumber": 2,
+          "introduction": "本问题主要介绍：为什么没有共产党就没有独立的新中国，没有共产党就没有社会主义的新中国。 ",
+          "chapterId": 1000107267,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219399,
+              "name": "没有共产党就没有新中国      ",
+              "orderNumber": 1,
+              "lessonId": 1000299409,
+              "videoId": 11941609,
+              "videoSec": 672,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219417,
+              "name": "中国共产党民主革命胜利的基本经验",
+              "orderNumber": 2,
+              "lessonId": 1000299409,
+              "videoId": 11939865,
+              "videoSec": 795,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760649,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025956,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/5j4Gd6lQ/yL8bjYby/1000010466/5355/0"
+      }
+    },
+    {
+      "id": 1000107268,
+      "name": "春风杨柳万千条：历史和人民选择了社会主义道路",
+      "orderNumber": 9,
+      "description": "本专题通过讲授过渡时期中国国内的经济状况和所处的国际环境，使学生认识到社会主义道路的确定是历史和人民的选择；通过讲授对个体农业进行社会主义改造的必然性以及对资本主义工商业进行社会主义改造的主要形式，使学生认识到中国共产党一切从实际出发，将马克思主义基本原理与中国国情相结合，最终成功地完成了社会主义改造，确立了社会主义制度，使中国走上了社会主义的康庄大道。",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299398,
+          "name": "社会主义道路：历史和人民的选择",
+          "orderNumber": 1,
+          "introduction": "本问题主要介绍：在历史的紧要关头，为什么历史和人民最终选择了社会主义道路。",
+          "chapterId": 1000107268,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219400,
+              "name": "社会主义制度的确立是历史和人民的选择              ",
+              "orderNumber": 1,
+              "lessonId": 1000299398,
+              "videoId": 11939803,
+              "videoSec": 652,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219418,
+              "name": "社会主义工业化战略的确立         ",
+              "orderNumber": 2,
+              "lessonId": 1000299398,
+              "videoId": 11940019,
+              "videoSec": 604,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299410,
+          "name": "有中国特点的向社会主义过渡的道路",
+          "orderNumber": 2,
+          "introduction": "本问题主要介绍：为什么新中国刚成立不久就要对个体农业进行社会主义改造？中国共产党采用什么样的形式最终顺利完成了对资本主义工商业的社会主义改造？",
+          "chapterId": 1000107268,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219401,
+              "name": "对个体农业的社会主义改造",
+              "orderNumber": 1,
+              "lessonId": 1000299410,
+              "videoId": 11939821,
+              "videoSec": 610,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219419,
+              "name": "对资本主义工商业的社会主义改造",
+              "orderNumber": 2,
+              "lessonId": 1000299410,
+              "videoId": 11939807,
+              "videoSec": 605,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760653,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025969,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/w4onqgm8/eAZaqRP5/1000010466/5355/0"
+      }
+    },
+    {
+      "id": 1000107269,
+      "name": "而今迈步从头越：对社会主义建设道路的曲折探索 ",
+      "orderNumber": 10,
+      "description": "本专题主要内容：了解以毛泽东为首的新中国第一代领导集体对社会主义建设道路所进行的艰难探索及其成就；认识这一时期中国共产党所犯错误的性质、原因和教训；理解社会主义建设道路探索中形成的理论创造，为党积极进行探索并系统形成中国特色社会主义理论体系提供了重要基础。",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299399,
+          "name": "全面建设社会主义的开端",
+          "orderNumber": 1,
+          "introduction": "本问题主要内容：八大前后，以毛泽东为代表的中国共产党人提出马克思主义同中国实际的“第二次结合”，对中国的社会主义建设道路进行了艰苦的探索，并取得了积极的成果。",
+          "chapterId": 1000107269,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219402,
+              "name": "党的八大和对中国社会主义建设道路的探索",
+              "orderNumber": 1,
+              "lessonId": 1000299399,
+              "videoId": 11939819,
+              "videoSec": 598,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299411,
+          "name": "探索中的严重曲折",
+          "orderNumber": 2,
+          "introduction": "本问题主要内容：尽管中国共产党在独立探索中国自己的社会主义建设道路过程中发生了严重曲折，但这并不是由社会主义根本制度本身造成的，而且从总体上说，社会主义建设取得的成就是巨大的。",
+          "chapterId": 1000107269,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219403,
+              "name": "中国社会主义建设的曲折与成就",
+              "orderNumber": 1,
+              "lessonId": 1000299411,
+              "videoId": 11939793,
+              "videoSec": 537,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299419,
+          "name": "建设的成就、探索的成果",
+          "orderNumber": 3,
+          "introduction": "本问题主要内容：以毛泽东为代表的中国共产党人对建设什么样的社会主义、怎样建设社会主义进行对艰辛探索，积累了再中国进行社会主义建设的重要经验，为党积极进行探索并系统形成中国特色社会主义理论体系提供了重要基础。",
+          "chapterId": 1000107269,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219404,
+              "name": "探索社会主义建设道路形成的认识成果",
+              "orderNumber": 1,
+              "lessonId": 1000299419,
+              "videoId": 11939825,
+              "videoSec": 584,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760657,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025970,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/yoKazd6D/edXx7A3e/1000010466/5355/0"
+      }
+    },
+    {
+      "id": 1000107270,
+      "name": "人间正道是沧桑：历史和人民选择了改革开放",
+      "orderNumber": 11,
+      "description": "通过本专题教学，让学生了解改革开放和社会主义现代化建设的理论与实践成果，在此基础上引导学生正确认识改革发展中的矛盾与问题，深刻认识改革开放是决定当代中国命运的关键抉择，坚定中国特色社会主义道路自信、理论自信、制度自信和文化自信。",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299400,
+          "name": "历史性的伟大转折和改革开放的起步",
+          "orderNumber": 1,
+          "introduction": "本问题主要介绍：具有深远意义的伟大转折的十一届三中全会召开的思想先导和拨乱反正任务的完成。",
+          "chapterId": 1000107270,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219405,
+              "name": "历史性的伟大转折",
+              "orderNumber": 1,
+              "lessonId": 1000299400,
+              "videoId": 11940009,
+              "videoSec": 784,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299412,
+          "name": "改革开放和现代化建设新局面的展开",
+          "orderNumber": 2,
+          "introduction": "本问题主要介绍：中国特色社会主义一路走来与邓小平的深刻思考、科学总结、积极探索、成功开创是分不开的。",
+          "chapterId": 1000107270,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219406,
+              "name": "邓小平与中国特色社会主义",
+              "orderNumber": 1,
+              "lessonId": 1000299412,
+              "videoId": 11939829,
+              "videoSec": 645,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299420,
+          "name": "开拓中国特色社会主义更为广阔的发展前景",
+          "orderNumber": 3,
+          "introduction": "本问题主要介绍：改革开放以来取得巨大成就及其根本原因和主要经验。",
+          "chapterId": 1000107270,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219407,
+              "name": "改革开放以来取得的伟大历史性成就与经验启示",
+              "orderNumber": 1,
+              "lessonId": 1000299420,
+              "videoId": 11939875,
+              "videoSec": 920,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760663,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025961,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/5pq78GLE/yOaqk8Xe/1000010466/5355/0"
+      }
+    },
+    {
+      "id": 1000107271,
+      "name": "长风破浪会有时：中国特色社会主义进入新时代",
+      "orderNumber": 12,
+      "description": "通过本专题教学，要使学生深刻了解党的十八大以来党和国家事业发生的历史性变革在诸多重要领域的具体体现，深刻了解这些历史性变革是深层次和根本性的，并充分认识发生这一系列深刻变革的根本原因，深刻了解中国特色社会主义进入新时代的丰富内涵和伟大意义。",
+      "learningDay": 0,
+      "learningLessonStatus": 1,
+      "isPassBadge": 0,
+      "limitChecked": 0,
+      "videoLessons": [
+        {
+          "id": 1000299401,
+          "name": "全面建成小康社会目标的确定",
+          "orderNumber": 1,
+          "introduction": "本问题主要介绍：全面建成小康社会的目标、中国特色社会主义进入新时代的基本依据、本质内涵及重大意义和新时代中国社会主要矛盾。",
+          "chapterId": 1000107271,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219408,
+              "name": "中国特色社会主义进入新时代",
+              "orderNumber": 1,
+              "lessonId": 1000299401,
+              "videoId": 11939883,
+              "videoSec": 925,
+              "isStudiedLesson": 0
+            },
+            {
+              "id": 1000219420,
+              "name": "新时代中国社会主要矛盾",
+              "orderNumber": 2,
+              "lessonId": 1000299401,
+              "videoId": 11939891,
+              "videoSec": 949,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299413,
+          "name": "党和国家事业的历史性成就和历史性变革",
+          "orderNumber": 2,
+          "introduction": "本问题主要介绍：十八大以来的历史性成就、变革和习近平新时代中国特色社会主义思想。",
+          "chapterId": 1000107271,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219409,
+              "name": "习近平新时代中国特色社会主义思想",
+              "orderNumber": 1,
+              "lessonId": 1000299413,
+              "videoId": 11939895,
+              "videoSec": 852,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        },
+        {
+          "id": 1000299421,
+          "name": "夺取新时代中国特色社会主义伟大胜利",
+          "orderNumber": 3,
+          "introduction": "本问题主要介绍：什么是中国梦和全面建设社会主义现代化强国的时间表、路线图。",
+          "chapterId": 1000107271,
+          "isDeteled": 0,
+          "videoSmallLessons": [
+            {
+              "id": 1000219410,
+              "name": "实现中华民族伟大复兴的中国梦",
+              "orderNumber": 1,
+              "lessonId": 1000299421,
+              "videoId": 11939903,
+              "videoSec": 820,
+              "isStudiedLesson": 0
+            }
+          ],
+          "ishaveChildrenLesson": 1,
+          "isStudiedLesson": 0
+        }
+      ],
+      "isPass": 1,
+      "studentExamDto": {
+        "id": 1148760666,
+        "correctProgress": null,
+        "createTime": null,
+        "updateTime": null,
+        "courseId": null,
+        "classId": null,
+        "userId": null,
+        "isDelete": 0,
+        "oneHundredPont": null,
+        "gradePont": null,
+        "levelPont": null,
+        "passPont": null,
+        "isUpdate": null,
+        "remainingTime": null,
+        "state": 1,
+        "achieveCount": null,
+        "achieve": null,
+        "courseSourceType": null,
+        "exam": {
+          "id": 15025962,
+          "isRecruit": 2,
+          "limitTime": null,
+          "parentId": null,
+          "type": 1,
+          "startDate": 1614182400000,
+          "examPaper": {
+            "type": null
+          },
+          "reviewEndTime": null,
+          "lateSetting": null,
+          "lateScore": null,
+          "totalScore": null
+        },
+        "remark": null,
+        "publishDate": null,
+        "endDate": null,
+        "score": null,
+        "examId": null,
+        "examStartFlag": null,
+        "parentId": null,
+        "examUrl": "//onlineexamh5new.zhihuishu.com/stuExamWeb.html#/webExamList/dohomework/48111/ePd9Jga9/ex4Gnmxe/1000010466/5355/0"
+      }
+    }
+  ]
+}

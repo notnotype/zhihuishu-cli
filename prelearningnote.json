@@ -1,0 +1,25 @@
+{
+  "chapterId": null,
+  "createTime": null,
+  "id": 4982757276,
+  "isDeteled": null,
+  "isStudiedLesson": 0,
+  "lastStudyTime": null,
+  "learnTime": "00:20:10",
+  "learnTimeSec": 1210,
+  "lessonId": null,
+  "lessonVideoId": null,
+  "personalCourseId": null,
+  "playTimes": null,
+  "recruitId": null,
+  "sourseType": null,
+  "studyPercent": null,
+  "studyTotalTime": 1203,
+  "updateTime": null,
+  "userId": null,
+  "videoId": null,
+  "videoSize": 0.0,
+  "watchCount": null,
+  "watchState": 1
+}
+

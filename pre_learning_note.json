@@ -1,0 +1,26 @@
+{
+  "studiedLessonDto": {
+    "id": 4982757276,
+    "userId": null,
+    "lastStudyTime": null,
+    "isDeteled": null,
+    "updateTime": null,
+    "createTime": null,
+    "learnTime": "00:03:28",
+    "learnTimeSec": 208,  // good
+    "isStudiedLesson": 0,
+    "studyTotalTime": 208,  // good
+    "studyPercent": null,
+    "watchState": 2,  // good
+    "videoSize": 0,
+    "sourseType": null,
+    "watchCount": null,
+    "playTimes": null,
+    "videoId": null,
+    "recruitId": null,
+    "lessonId": null,
+    "lessonVideoId": null,
+    "chapterId": null,
+    "personalCourseId": null
+  }
+}
