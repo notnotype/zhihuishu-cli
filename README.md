@@ -38,7 +38,10 @@ pip3 install -r requirements.txt
 > 本项目处于开发状态, 并不支持配置课程, 但可以看个效果
  
 ```shell
-python3 main.py
+# 将最后一串数字替换为该课程的id
+# 例如以下网址recruitAndCourseId就是课程id啦
+# https://studyh5.zhihuishu.com/videoStudy.html#/studyVideo?recruitAndCourseId=4e50585944524258454a585858415f45
+python3 zhihuishu-cli.py chapter -c "4e50585944524258454a585858415f45"
 ```
 
 ---
@@ -52,6 +55,8 @@ python3 main.py
 使用手机`知道app`扫码即可
 
 ## 运行截图
+
+![运行截图](./images/chapter.png)
 
 ![运行截图](./images/img.png)
 
