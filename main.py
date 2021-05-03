@@ -6,11 +6,10 @@ from json import dumps, loads
 from typing import List, Tuple, Union, Optional, Dict, Any
 from base64 import b64decode, b64encode
 from datetime import datetime, timedelta
-from urllib.parse import urljoin, quote, unquote
 
 import requests
 from requests import RequestException
-from requests.cookies import RequestsCookieJar, merge_cookies, cookiejar_from_dict
+from requests.cookies import RequestsCookieJar
 from websocket import create_connection
 from loguru import logger
 from icecream import ic
@@ -200,19 +199,35 @@ class ZhiHuiShu:
 
     def get_user_info(self):
         """get user info"""
-        url = f'https://onlineservice.zhihuishu.com/login/getLoginUserInfo'
-        response = self.get(url)
-        ic(self.client.cookies)
 
-        response.raise_for_status()
-        json_data = response.json()
+        try:
+            url = f'https://onlineservice.zhihuishu.com/login/getLoginUserInfo'
+            response = self.get(url)
 
-        if json_data['code'] != 200:
-            raise RuntimeError('不能获取用户信息', json_data)
+            response.raise_for_status()
+            ic(response.cookies.items())
+            json_data = response.json()
 
-        self.real_name = json_data['result']['realName']  # data
-        self.username = json_data['result']['username']
-        self.uuid = json_data['result']['uuid']
+            if json_data['code'] != 200:
+                raise RuntimeError('不能获取用户信息', json_data)
+
+            self.real_name = json_data['result']['realName']  # data
+            self.username = json_data['result']['username']
+            self.uuid = json_data['result']['uuid']
+        except (RuntimeError, RequestException):
+            url = f'https://studyservice.zhihuishu.com/login/getLoginUserInfo'
+            response = self.get(url)
+
+            response.raise_for_status()
+            ic(response.cookies.items())
+            json_data = response.json()
+
+            if json_data['code'] != 200:
+                raise RuntimeError('不能获取用户信息', json_data)
+
+            self.real_name = json_data['data']['realName']  # data
+            self.username = json_data['data']['username']
+            self.uuid = json_data['data']['uuid']
 
     def video_list(self, recruit_and_course_id):
         date_format = get_time()
@@ -237,8 +252,8 @@ class ZhiHuiShu:
         for each in a:
             k, v = each.split('=')
             cookies[k] = v
-
         self.client.cookies = cookies
+        self.get_user_info()
 
     def query_study_info(self, video_list: Dict):
         # section
@@ -512,6 +527,7 @@ class ZhiHuiShu:
             for section in chapter['videoLessons']:
                 for lesson in section['videoSmallLessons']:
                     if lesson['id'] == lesson_id:
+                        lesson_name = lesson['name']
                         section_id = section['id']
                         chapter_id = chapter['id']
                         video_id = lesson['videoId']
@@ -534,7 +550,7 @@ class ZhiHuiShu:
         )
 
         def detect_finish():
-            ic(this['video_progress'], video_length)
+            logger.info(f'当前视频名字[{lesson_name}], 当前进度[{this["video_progress"]}], 总进度[{video_length}]')
             if this['video_progress'] >= video_length:
                 scheduler.remove_all_jobs()
                 scheduler.shutdown(wait=False)
@@ -549,59 +565,86 @@ class ZhiHuiShu:
             this['play_time'] += 5 * this['play_rate']
 
         def save_database():
-            self.submit_progress(lesson_id, vl, si, pln, int(this['play_time']),
+            self.submit_progress(lesson_id, video_list, study_info, pre_note_info, int(this['play_time']),
                                  int(this['total_study_time']), this['watch_point_post'],
                                  int(this['video_progress']))
             this['play_time'] = 0
             this['watch_point_post'] = '0,1'
 
-        job_learning_time_record = scheduler.add_job(
+        scheduler.add_job(
             learning_time_record, 'interval', seconds=1.99
         )
-        job_total_study_time_fun = scheduler.add_job(
+        scheduler.add_job(
             total_study_time_fun, 'interval', seconds=4.99
         )
-        job_detect_finish = scheduler.add_job(
+        scheduler.add_job(
             detect_finish, 'interval', seconds=1.5
         )
-        job_submit_progress = scheduler.add_job(
+        scheduler.add_job(
             save_database, 'interval', seconds=10
         )
 
         scheduler.start()
         logger.info('完成视频!')
 
+    def close(self):
+        self.client.close()
+
 
 class ZhiHuiShuCourseWorkerBlocking:
-    def __init__(self, course_id: str):
-        self.course_id = course_id
+    def __init__(self, course_recruit_id: str):
+        self.course_recruit_id = course_recruit_id
 
         self.scheduler = BlockingScheduler()
-        self.scheduler.add_job(self.job, 'cron', hour=7)
 
     def from_local_file(self, file_name: str):
         ...
 
-    def job(self):
-        sleep(random.randrange(0, 1000))
+    def job(self, cookies: str = None):
+        # sleep(random.randrange(0, 1000))
+
+        zhs = ZhiHuiShu()
+        if not cookies:
+            zhs.login()
+        else:
+            zhs.set_cookies(cookies)
+
+        vl = zhs.video_list(self.course_recruit_id)
+        si = zhs.query_study_info(vl)
+
+        for k, v in si['lv'].items():
+            if v['watchState'] == 2:
+                pln = zhs.pre_learning_note(int(k), vl, si)
+                logger.info(f'开始学习: {int(k)}')
+                zhs.start_watch_blocking(int(k), vl, si, pln)
+                break
+        logger.info('学习完毕')
+        zhs.close()
 
     def start(self):
-        ...
+        self.scheduler.add_job(self.job, 'cron', second=10)
+        self.scheduler.start()
+
+    def start_with_cookies(self, cookies: str):
+        self.scheduler.add_job(partial(self.job, cookies), 'cron', second=10)
+        self.scheduler.start()
 
 
 if __name__ == '__main__':
-    course_recruit_id = '4e50585944524258454a585858415f45'
-    zhs = ZhiHuiShu()
+    ...
+    # course_recruit_id = '4e50585944524258454a585858415f45'
+    # zhs = ZhiHuiShu()
     # zhs.set_cookies(
-    #     'CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBkPo%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; exitRecod_Xk5lBkPo=2; acw_tc=2f624a2d16199180617676413e4355e30123ef1602c95d2074ce14879b6c70; CASTGC=TGT-2244870-YHq5uwq6i17XBWNe1SpOAtukdA24EODkd5jBSdOT63HXKPQ5Sw-passport.zhihuishu.com; SESSION=NjMyOTRlMDktMTQxNi00YzY4LTlkMmEtYWY1NDQ1M2Y2OWRh; SERVERID=4516a494fea80bcfc392e5b45dea0690|1619918119|1619918061'
+    #     'exitRecod_Xk5lBkPo=2; o_session_id=C5FBAB032CC3DD3D87707E6BAF7881DE; Z_LOCALE=1; CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBkPo%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; CASTGC=TGT-3203136-etgFWv5hWZUx7eU9zPbHRyXGqqPUQE1BKdKbtgyPc4dMfeWLSw-passport.zhihuishu.com; acw_tc=2f624a6516200339003412898e519ad2e7231cec92145ea9e08ae0ee4abe8d; SESSION=MzQyMTBjNzAtNTY3ZC00MWFlLTliYWItMDc1MDg5Yjg3NTk1; SERVERID=b1981271024e2ffaaf63c337b5db4f00|1620034487|1620033900'
     # )
-    zhs.login()
-
-    vl = zhs.video_list(course_recruit_id)
-    si = zhs.query_study_info(vl)
-
-    pln = zhs.pre_learning_note(1000244451, vl, si)
-    zhs.start_watch_blocking(1000244451, vl, si, pln)
+    # zhs.get_user_info()
+    # # zhs.login()
+    #
+    # vl = zhs.video_list(course_recruit_id)
+    # si = zhs.query_study_info(vl)
+    #
+    # pln = zhs.pre_learning_note(1000219398, vl, si)
+    # zhs.start_watch_blocking(1000219398, vl, si, pln)
 
     # zhs.submit_progress(
     #     1000219376, vl, si, pln, 5, 1600, '0,1,245,245,246,247'
@@ -612,3 +655,8 @@ if __name__ == '__main__':
     #     5, 515, '00:01:03'
     # )
     # "4e4241454551554a4a40464d53504a484b45445a54484b494046585f4b4b49474d5d5c49414144445a554a4d4242445154414f4b41455f5f4a4a4a4445505449"
+
+    # test scheduler
+    zhscw = ZhiHuiShuCourseWorkerBlocking('4e50585944524258454a585858415f45')
+    # zhscw.start()
+    zhscw.start_with_cookies('exitRecod_Xk5lBkPo=2; o_session_id=C5FBAB032CC3DD3D87707E6BAF7881DE; Z_LOCALE=1; CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBkPo%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; CASTGC=TGT-3203136-etgFWv5hWZUx7eU9zPbHRyXGqqPUQE1BKdKbtgyPc4dMfeWLSw-passport.zhihuishu.com; acw_tc=2f624a6516200339003412898e519ad2e7231cec92145ea9e08ae0ee4abe8d; SESSION=MzQyMTBjNzAtNTY3ZC00MWFlLTliYWItMDc1MDg5Yjg3NTk1; SERVERID=b1981271024e2ffaaf63c337b5db4f00|1620034487|1620033900')
