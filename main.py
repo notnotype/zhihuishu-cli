@@ -229,6 +229,16 @@ class ZhiHuiShu:
             self.username = json_data['data']['username']
             self.uuid = json_data['data']['uuid']
 
+    @property
+    def ok(self):
+        try:
+            self.get_user_info()
+        except RuntimeError as e:
+            if e.args[0] == '不能获取用户信息':
+                return False
+        else:
+            return True
+
     def video_list(self, recruit_and_course_id):
         date_format = get_time()
         uuid = self.uuid
@@ -246,13 +256,17 @@ class ZhiHuiShu:
 
         return json_data['data']
 
-    def set_cookies(self, cookies: str):
+    def set_cookies_only(self, cookies: str):
+        cookies = cookies.strip(';')
         a = cookies.split(';')
         cookies = RequestsCookieJar()
         for each in a:
             k, v = each.split('=')
             cookies[k] = v
         self.client.cookies = cookies
+
+    def set_cookies(self, cookies: str):
+        self.set_cookies_only(cookies)
         self.get_user_info()
 
     def query_study_info(self, video_list: Dict):
@@ -659,4 +673,5 @@ if __name__ == '__main__':
     # test scheduler
     zhscw = ZhiHuiShuCourseWorkerBlocking('4e50585944524258454a585858415f45')
     # zhscw.start()
-    zhscw.start_with_cookies('exitRecod_Xk5lBkPo=2; o_session_id=C5FBAB032CC3DD3D87707E6BAF7881DE; Z_LOCALE=1; CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBkPo%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; CASTGC=TGT-3203136-etgFWv5hWZUx7eU9zPbHRyXGqqPUQE1BKdKbtgyPc4dMfeWLSw-passport.zhihuishu.com; acw_tc=2f624a6516200339003412898e519ad2e7231cec92145ea9e08ae0ee4abe8d; SESSION=MzQyMTBjNzAtNTY3ZC00MWFlLTliYWItMDc1MDg5Yjg3NTk1; SERVERID=b1981271024e2ffaaf63c337b5db4f00|1620034487|1620033900')
+    zhscw.start_with_cookies(
+        'exitRecod_Xk5lBkPo=2; o_session_id=C5FBAB032CC3DD3D87707E6BAF7881DE; Z_LOCALE=1; CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBkPo%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; CASTGC=TGT-3203136-etgFWv5hWZUx7eU9zPbHRyXGqqPUQE1BKdKbtgyPc4dMfeWLSw-passport.zhihuishu.com; acw_tc=2f624a6516200339003412898e519ad2e7231cec92145ea9e08ae0ee4abe8d; SESSION=MzQyMTBjNzAtNTY3ZC00MWFlLTliYWItMDc1MDg5Yjg3NTk1; SERVERID=b1981271024e2ffaaf63c337b5db4f00|1620034487|1620033900')
