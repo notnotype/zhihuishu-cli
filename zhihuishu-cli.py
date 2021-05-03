@@ -93,10 +93,25 @@ def login():
 
 
 @root.command()
-@click.argument('course_id')
-@click.argument('lesson_id')
-def study(course_id, lesson_id):
+@click.argument('course_id', type=str, required=True)
+@click.argument('lesson_id', type=int, required=True)
+def study(course_id: str, lesson_id: int):
     click.echo(f'study {course_id} {lesson_id}')
+    zhs = awesome_login()
+
+    vl = zhs.video_list(course_id)
+    si = zhs.query_study_info(vl)
+
+    pln = zhs.pre_learning_note(lesson_id, vl, si)
+    zhs.start_watch_blocking(lesson_id, vl, si, pln)
+
+
+@root.command()
+@click.argument('course_id')
+def run_course(course_id: str):
+    click.echo(info('该命令处于测试阶段'))
+    zhscw = ZhiHuiShuCourseWorkerBlocking('4e50585944524258454a585858415f45')
+    zhscw.start()
 
 
 if __name__ == '__main__':

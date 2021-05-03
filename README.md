@@ -54,9 +54,22 @@ python3 zhihuishu-cli.py chapter -c "4e50585944524258454a585858415f45"
 
 使用手机`知道app`扫码即可
 
+## 一句话
+> 把上面命令放在一起方便你复制
+```shell
+git clone www.github.com/notnotype/zhihuishu-cli.git
+cd zhihuishu-cli
+pip3 install -r requirements.txt
+python zhihuishu-cli.py study 4e50585944524258454a585858415f45 1000219398
+# 或者下面这条显示当前课程第一节课程
+#python3 zhihuishu-cli.py chapter -c "4e50585944524258454a585858415f45"
+```
+
 ## 运行截图
 
 ![运行截图](./images/chapter.png)
+
+![运行截图](./images/start_study.png)
 
 ![运行截图](./images/img.png)
 
