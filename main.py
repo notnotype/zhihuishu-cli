@@ -274,16 +274,17 @@ class ZhiHuiShu:
         json_data = response.json()
         return json_data['result']['courseOpenDtos']
 
-    def set_cookies_only(self, cookies: str):
-        cookies = cookies.strip(';')
-        a = cookies.split(';')
-        cookies = RequestsCookieJar()
-        for each in a:
-            k, v = each.split('=')
-            cookies[k] = v
+    def set_cookies_only(self, cookies: Union[str, RequestsCookieJar]):
+        if isinstance(cookies, str):
+            cookies = cookies.strip(';')
+            temp = cookies.split(';')
+            cookies = RequestsCookieJar()
+            for each in temp:
+                k, v = each.split('=')
+                cookies[k] = v
         self.client.cookies = cookies
 
-    def set_cookies(self, cookies: str):
+    def set_cookies(self, cookies: [str, RequestsCookieJar]):
         self.set_cookies_only(cookies)
         self.get_user_info()
 

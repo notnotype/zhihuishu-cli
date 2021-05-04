@@ -43,7 +43,6 @@ def awesome_login() -> ZhiHuiShu:
     zhs = load_session()
     if not zhs.ok:
         ic('重新登陆')
-        zhs.close()
         zhs = ZhiHuiShu()
         zhs.login()
         save_session(zhs)
@@ -68,8 +67,8 @@ def course():
             '授课老师: {} \n' \
             '学校: {} \n' \
             '在学    : {} \n' \
-            '进度    : {} \n\n'.format(
-                str(share_course['courseName']), str(share_course['courseId']), str(share_course['teacherName']),
+            '进度    : {} \n'.format(
+                str(share_course['courseName']), str(share_course['secret']), str(share_course['teacherName']),
                 str(share_course['schoolName']),
                 str(share_course['lessonName']), str(share_course['progress'])
             )
@@ -77,30 +76,100 @@ def course():
         click.echo()
 
 
-@root.command('chapter')
-@click.option('--course-id', '-c', '-ci', type=str, required=True)
-@click.option('--chapter-index', '-i', '-ci', type=int, default=1)
-def _(course_id: int, chapter_index: int):
-    ic(course_id, chapter_index)
+@root.command('chapters')
+@click.argument('course_id', type=str, required=True)
+def _(course_id: int):
+    ic(course_id)
 
     zhs = awesome_login()
 
     video_list = zhs.video_list(course_id)
     study_info = zhs.query_study_info(video_list)
 
-    course_id = video_list['courseId']
     click.echo(green(f'课程id: [{course_id}]'))
 
-    chapter = video_list['videoChapterDtos'][chapter_index]
+    for index, chapter in enumerate(video_list['videoChapterDtos']):
+        click.echo()
+        click.echo(green(f'第{index + 1}章'))
+        click.echo(f'章节id: [{chapter["id"]}]')
+        click.echo(f'章节名字: [{chapter["name"]}]')
+        click.echo(f'章节描述: [{chapter["description"]}]')
+        click.echo()
+
+
+@root.command('sections')
+@click.argument('course_id', type=str, required=True)
+@click.argument('chapter_id', type=int, required=True)
+def _(course_id: str, chapter_id: int):
+    ic(course_id, chapter_id)
+
+    zhs = awesome_login()
+
+    video_list = zhs.video_list(course_id)
+    study_info = zhs.query_study_info(video_list)
+
+    click.echo(green(f'课程id: [{course_id}]'))
+
+    chapter = None
+
+    for chapter in video_list['videoChapterDtos']:
+        if chapter['id'] == chapter_id:
+            break
+
     click.echo(f'章节id: [{chapter["id"]}]')
     click.echo(f'章节名字: [{chapter["name"]}]')
     click.echo(f'章节描述: [{chapter["description"]}]')
+    click.echo('第[{}]章下各个小节如下'.format(chapter['orderNumber']))
     click.echo()
     for section in chapter['videoLessons']:
+        click.echo()
         click.echo('=' * 20)
         click.echo(f'小节id: [{green(section["id"])}]')
         click.echo(f'小节名字: [{green(section["name"])}]')
         click.echo(f'小节描述: [{green(section["introduction"])}]')
+        click.echo()
+
+
+@root.command('lessons')
+@click.argument('course_id', type=str, required=True)
+@click.argument('chapter_id', type=int, required=True)
+@click.argument('section_id', type=int, required=True)
+def _(course_id: str, chapter_id: int, section_id: int):
+    ic(course_id, chapter_id, section_id)
+
+    zhs = awesome_login()
+
+    video_list = zhs.video_list(course_id)
+    study_info = zhs.query_study_info(video_list)
+
+    click.echo(green(f'课程id: [{course_id}]'))
+
+    chapter = None
+    section = None
+
+    for chapter in video_list['videoChapterDtos']:
+        for section in chapter['videoLessons']:
+            if section['id'] == section_id:
+                break
+
+    click.echo(f'章节id: [{chapter["id"]}]')
+    click.echo(f'章节名字: [{chapter["name"]}]')
+    click.echo(f'章节描述: [{chapter["description"]}]')
+    click.echo('第[{}]章下各个小节如下'.format(chapter['orderNumber']))
+    click.echo()
+    click.echo('=' * 20)
+    click.echo(f'小节id: [{green(section["id"])}]')
+    click.echo(f'小节名字: [{green(section["name"])}]')
+    click.echo(f'小节描述: [{green(section["introduction"])}]')
+    click.echo()
+
+    for lesson in section['videoSmallLessons']:
+        click.echo()
+        click.echo('小课id: [{}]'.format(lesson['id']))
+        click.echo('小课名字: [{}]'.format(lesson['name']))
+        click.echo('小课视频id: [{}]'.format(lesson['videoId']))
+        click.echo('小课视频长度: [{}]'.format(lesson['videoSec']))
+        click.echo()
 
 
 @root.command()
