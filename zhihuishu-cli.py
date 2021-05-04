@@ -5,8 +5,11 @@
 
 智慧树命令行接口, 是`main.py`的命令行接口
 """
+import pickle
+import os
 from datetime import datetime
 from json import dumps, loads
+from base64 import b64encode, b64decode
 
 import click
 from icecream import ic
@@ -20,16 +23,21 @@ def load_session(file='.zhihuishurc') -> ZhiHuiShu:
     """加载登录状态, 防止多次登录"""
     with open(file, 'r') as f:
         data = loads(f.read())
+
     cookies = data['cookies']
+    cookies = pickle.loads(
+        b64decode(cookies.encode())
+    )
+
     zhs = ZhiHuiShu()
     zhs.set_cookies_only(cookies)
     return zhs
 
 
 def save_session(zhs: ZhiHuiShu, file='.zhihuishurc'):
-    cookies = ''
-    for k, v in zhs.client.cookies.items():
-        cookies += '{k}={v};'.format(k=k, v=v)
+    cookies = b64encode(
+        pickle.dumps(zhs.client.cookies)
+    ).decode()
 
     data = {
         'datetime': datetime.now().strftime('%Y/%m/%d %T'),
@@ -40,12 +48,16 @@ def save_session(zhs: ZhiHuiShu, file='.zhihuishurc'):
 
 
 def awesome_login() -> ZhiHuiShu:
-    zhs = load_session()
+    if os.path.exists('./.zhihuishurc'):
+        zhs = load_session()
+    else:
+        zhs = ZhiHuiShu()
+        zhs.login()
     if not zhs.ok:
         ic('重新登陆')
         zhs = ZhiHuiShu()
         zhs.login()
-        save_session(zhs)
+    save_session(zhs)
 
     return zhs
 
