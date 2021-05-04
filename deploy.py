@@ -1,24 +1,34 @@
-from icecream import ic
 from loguru import logger
 
 from mirai import Mirai, MessageChain
 from mirai.messages import Image
 from main import ZhiHuiShuCourseWorkerBlocking
 
-qq = 776441179
-client = Mirai('http://47.119.123.104:8080', 'Misd552f', qq)
-target_group = 1072992996
+from json import loads
+
+mirai_config = loads(open('./mirai/mirai.config.json', 'r').read())
+qq = mirai_config['qq']
+client = Mirai(mirai_config['host'], mirai_config['auth_key'], qq)
+target_group = mirai_config['target_group']
 
 
-def force_auth(qq: int):
+def force_auth(_qq: int):
     try:
-        client.auth(qq)
+        client.auth(_qq)
     except:
         logger.exception('重新连接mirai')
-        force_auth(qq)
+        force_auth(_qq)
 
 
 class ZhiHuiShuCourseWorkerBlockingMirai(ZhiHuiShuCourseWorkerBlocking):
+    def job_start(self):
+        force_auth(qq)
+        client.send_group_message(target_group, '开始学习')
+
+    def lesson_finish(self):
+        force_auth(qq)
+        client.send_group_message(target_group, '扫码成功')
+
     def __init__(self, course_id: str, hour=21, minute=0, second=0, study_count=3):
         super(ZhiHuiShuCourseWorkerBlockingMirai, self).__init__(
             course_id, hour=hour, minute=minute, second=second, study_count=study_count
@@ -37,4 +47,4 @@ class ZhiHuiShuCourseWorkerBlockingMirai(ZhiHuiShuCourseWorkerBlocking):
 
     def job_finish(self):
         force_auth(qq)
-        client.send_group_message(target_group, '学完了哦')
+        client.send_group_message(target_group, '今天的课程全部学完了哦')
