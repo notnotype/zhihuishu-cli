@@ -1,4 +1,3 @@
-
 <h1 align="center">zhihuishu-cli</h1>
 
 > 一个`智慧树`(`知到app`)的终端接口
@@ -15,55 +14,75 @@
 
 ## 快速上手(QuickStart)
 
-> 无
+### 使用pip安装
 
-### 首先clone本仓库
 ```shell
-git clone www.github.com/notnotype/zhihuishu-cli.git
+pip install zhihuishu-cli
 ```
 
-### 然后进入此目录
+### 获取共享课程
+
 ```shell
-cd zhihuishu-cli
+zhihuishu-cli share-course
 ```
 
-### 安装项目依赖
-> 你必须提前安装好python环境, 然后安装python模块
+### 获取章节列表
+
 ```shell
-pip3 install -r requirements.txt
+zhihuishu-cli chapters 4e50585944524258454a585858415f45
 ```
 
-### 运行脚本
+### 获取小节列表
 
-> 本项目处于开发状态, 并不支持配置课程, 但可以看个效果
- 
 ```shell
-# 将最后一串数字替换为该课程的id
-# 例如以下网址recruitAndCourseId就是课程id啦
-# https://studyh5.zhihuishu.com/videoStudy.html#/studyVideo?recruitAndCourseId=4e50585944524258454a585858415f45
-python3 zhihuishu-cli.py chapter -c "4e50585944524258454a585858415f45"
+zhihuishu-cli sections 4e50585944524258454a585858415f45 1000107271
 ```
 
----
+### 获取小课程列表
 
-### 然后你将看到一个二维码弹出
+```shell
+zhihuishu-cli lessons 4e50585944524258454a585858415f45 1000107271 1000299421
+```
+
+### 开始学习
+
+```shell
+zhihuishu-cli study 4e50585944524258454a585858415f45 1000219410
+```
+
+### 每天自动学习
+
+> 默认为每天21点自动打开二维码认证
+
+```shell
+python3 zhihuishu-cli.py 4e50585944524258454a585858415f45
+```
+
+### 使用mirai部署
+
+> 先配置mirai-api-http
+> 
+> 然后将一些mirai-api-http配置信息填入`/mirai/mirai.config.json`里面
+> 
+> 模板文件在`/mirai/mirai.config.template.json`
+
+```shell
+python3 zhihuishu-cli.py deploy-mirai 4e50585944524258454a585858415f45
+```
+
+### 获取帮助信息
+
+```shell
+zhihuishu-cli --help
+```
+
+### 第一次使用, 或者长时间未使用会弹出二维码进行认证
 
 > 如果没有弹出则说明你没有使用窗口界面
 >
 > 二维码图片在项目目录下 `/qrcode.jpg`
 
 使用手机`知道app`扫码即可
-
-## 一句话
-> 把上面命令放在一起方便你复制
-```shell
-git clone www.github.com/notnotype/zhihuishu-cli.git
-cd zhihuishu-cli
-pip3 install -r requirements.txt
-python zhihuishu-cli.py study 4e50585944524258454a585858415f45 1000219398
-# 或者下面这条显示当前课程第一节课程
-#python3 zhihuishu-cli.py chapter -c "4e50585944524258454a585858415f45"
-```
 
 ## 运行截图
 
