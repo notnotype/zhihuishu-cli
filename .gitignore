@@ -1,5 +1,7 @@
 __pycache__/
 /.idea/
-/qrcode.jpg
-/qrcode.jpg.txt
+qrcode.jpg
+qrcode.jpg.txt
 /.zhihuishurc
+/mirai/test_mirai.py
+/mirai/mirai.config.json

@@ -12,6 +12,7 @@ import click
 from icecream import ic
 from huepy import *
 
+from deploy import ZhiHuiShuCourseWorkerBlockingMirai
 from main import ZhiHuiShu, ZhiHuiShuCourseWorkerBlocking
 
 
@@ -55,10 +56,25 @@ def root():
     pass
 
 
-@root.command('course-list')
-@click.option('--count', '-c', type=int, default=10)
-def course(count: int):
-    click.echo('course-list')
+@root.command('share-course')
+def course():
+    zhs = awesome_login()
+    share_courses = zhs.share_course()
+
+    for share_course in share_courses:
+        text = \
+            '课程名字: {} \n' \
+            '课程id: {} \n' \
+            '授课老师: {} \n' \
+            '学校: {} \n' \
+            '在学    : {} \n' \
+            '进度    : {} \n\n'.format(
+                str(share_course['courseName']), str(share_course['courseId']), str(share_course['teacherName']),
+                str(share_course['schoolName']),
+                str(share_course['lessonName']), str(share_course['progress'])
+            )
+        click.echo(text)
+        click.echo()
 
 
 @root.command('chapter')
@@ -107,10 +123,32 @@ def study(course_id: str, lesson_id: int):
 
 
 @root.command()
-@click.argument('course_id')
-def run_course(course_id: str):
+@click.option('--hour' '-h', type=int, required=False)
+@click.option('--minute', '-m', type=int, required=False)
+@click.option('--second', '-s', type=int, required=False)
+@click.option('--count', '-c', type=int, required=False)
+@click.argument('course_id', type=str, required=False)
+def run_course(course_id: str, hour: int, minute: int, second: int, count: int):
     click.echo(info('该命令处于测试阶段'))
-    zhscw = ZhiHuiShuCourseWorkerBlocking('4e50585944524258454a585858415f45')
+    ic(course_id, hour, minute, second, count)
+    zhscw = ZhiHuiShuCourseWorkerBlocking(
+        course_id, hour=hour, minute=minute, second=second, study_count=count
+    )
+    zhscw.start()
+
+
+@root.command()
+@click.option('--hour', '-h', type=int, required=False)
+@click.option('--minute', '-m', type=int, required=False)
+@click.option('--second', '-s', type=int, required=False)
+@click.option('--count', '-c', type=int, required=False)
+@click.argument('course_id', type=str, required=False)
+def deploy_mirai(course_id: str, hour: int, minute: int, second: int, count: int):
+    click.echo(bad('个人使用, 因为此命令接口不完善'))
+    ic(course_id, hour, minute, second, count)
+    zhscw = ZhiHuiShuCourseWorkerBlockingMirai(
+        course_id, hour=hour, minute=minute, second=second, study_count=count
+    )
     zhscw.start()
 
 

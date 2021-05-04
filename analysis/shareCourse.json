@@ -1,0 +1,41 @@
+[
+  {
+    "courseCount": null,
+    "courseEndTime": 1623772799000,
+    "courseId": 1000061366,
+    "courseImg": "https://image.zhihuishu.com/zhs/ablecommons/demo/202012/8b16f5f9fe63414d9dad44b166e9dc05.png",
+    "courseName": "寓思于影，光影之旅",
+    "courseStartTime": 1614182400000,
+    "courseStatus": 2,
+    "courseType": 1,
+    "lessonId": null,
+    "lessonName": null,
+    "lessonNum": null,
+    "progress": "0%",
+    "recruitId": 61997,
+    "schoolName": "湘潭大学",
+    "secret": "4c59505142524258454a585f59465f45",
+    "status": 0,
+    "teacherName": "彭薇"
+  },
+  {
+    "courseCount": null,
+    "courseEndTime": 1623772799000,
+    "courseId": 1000010466,
+    "courseImg": "https://image.zhihuishu.com/zhs/createcourse/course/202010/6296c51d1ad443e4a7a81b4ee85776c3.png",
+    "courseName": "中国近现代史纲要：专题及问题",
+    "courseStartTime": 1614182400000,
+    "courseStatus": 2,
+    "courseType": 1,
+    "lessonId": null,
+    "lessonName": "唤起工农千百万：淮海战役的群众动员",
+    "lessonNum": "8.1.1",
+    "progress": "16.9%",
+    "recruitId": 48111,
+    "schoolName": "湖南科技大学",
+    "secret": "4e50585944524258454a585858415f45",
+    "status": 0,
+    "teacherName": "尹杰钦"
+  }
+]
+

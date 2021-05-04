@@ -154,7 +154,7 @@ class ZhiHuiShu:
         ws_url = f'wss://appcomm-user.zhihuishu.com/app-commserv-user/websocket?qrToken={qr_token}'
         ws = create_connection(ws_url)
 
-        timer = DateTimeTimer(90, sep_time=2)  # 30 seconds
+        timer = DateTimeTimer(180, sep_time=2)  # 30 seconds
         response = None
         while timer:
             ws.send(qr_token)
@@ -184,15 +184,19 @@ class ZhiHuiShu:
         response.raise_for_status()
         ic(response)
 
-    def login(self):
+    def login(self, show=True, before: callable = None, after: callable = None):
         """login and get user info"""
         # get qr_code
         qr_token = self.get_qr()
         logger.info(f'qr_token 为 [{qr_token}]')
 
-        show_qr()
-
+        if show:
+            show_qr()
+        if before:
+            before()
         password, uuid = self.wait_scan(qr_token)
+        if after:
+            after()
         logger.info('临时密码 [{}], uuid: [{}]', password, uuid)
         self.login_pwd(password, uuid)
         self.get_user_info()
@@ -205,7 +209,6 @@ class ZhiHuiShu:
             response = self.get(url)
 
             response.raise_for_status()
-            ic(response.cookies.items())
             json_data = response.json()
 
             if json_data['code'] != 200:
@@ -255,6 +258,21 @@ class ZhiHuiShu:
             raise RuntimeError('不能获得video list', json_data)
 
         return json_data['data']
+
+    def share_course(self):
+        response = self.post(
+            'https://onlineservice.zhihuishu.com/student/course/share/queryShareCourseInfo',
+            data={
+                'status': 0,
+                'pageNo': 1,
+                'pageSize': 5,
+                'uuid': 'Xk5lBkPo',
+                'date': '2021 - 05 - 04T06 % 3A52 % 3A06.392Z',
+            }
+        )
+        response.raise_for_status()
+        json_data = response.json()
+        return json_data['result']['courseOpenDtos']
 
     def set_cookies_only(self, cookies: str):
         cookies = cookies.strip(';')
@@ -595,7 +613,7 @@ class ZhiHuiShu:
             detect_finish, 'interval', seconds=1.5
         )
         scheduler.add_job(
-            save_database, 'interval', seconds=10
+            save_database, 'interval', seconds=120
         )
 
         scheduler.start()
@@ -606,51 +624,90 @@ class ZhiHuiShu:
 
 
 class ZhiHuiShuCourseWorkerBlocking:
-    def __init__(self, course_recruit_id: str):
-        self.course_recruit_id = course_recruit_id
+    def __init__(self, course_id: str, hour=21, minute=0, second=0, study_count: int = 3):
+        self.course_recruit_id = course_id
+        self.hour = hour
+        self.minute = minute
+        self.second = second
+
+        self.study_count = study_count
 
         self.scheduler = BlockingScheduler()
 
-    def from_local_file(self, file_name: str):
-        ...
+    def job_start(self):
+        pass
+
+    def before_qr(self):
+        pass
+
+    def after_qrcode(self):
+        pass
+
+    def job_finish(self):
+        pass
+
+    def lesson_finish(self):
+        pass
+
+    def get_zhs(self, cookies: str = None) -> ZhiHuiShu:
+
+        zhs = ZhiHuiShu()
+        if not cookies:
+            zhs.login(True, self.before_qr, self.after_qrcode)
+        else:
+            zhs.set_cookies(cookies)
+        return zhs
 
     def job(self, cookies: str = None):
         # sleep(random.randrange(0, 1000))
 
-        zhs = ZhiHuiShu()
-        if not cookies:
-            zhs.login()
-        else:
-            zhs.set_cookies(cookies)
+        self.job_start()
+        zhs = self.get_zhs(cookies)
 
         vl = zhs.video_list(self.course_recruit_id)
         si = zhs.query_study_info(vl)
+
+        sc = self.study_count
 
         for k, v in si['lv'].items():
             if v['watchState'] == 2:
                 pln = zhs.pre_learning_note(int(k), vl, si)
                 logger.info(f'开始学习: {int(k)}')
                 zhs.start_watch_blocking(int(k), vl, si, pln)
-                break
+                self.lesson_finish()
+                sc -= 1
+                if sc <= 0:
+                    break
+
+        self.job_finish()
         logger.info('学习完毕')
         zhs.close()
 
     def start(self):
-        self.scheduler.add_job(self.job, 'cron', second=10)
+        self.scheduler.add_job(self.job, 'cron', **{
+            'hour': self.hour if self.hour else None,
+            'minute': self.minute if self.minute else None,
+            'second': self.second if self.second else None
+        })
         self.scheduler.start()
 
     def start_with_cookies(self, cookies: str):
-        self.scheduler.add_job(partial(self.job, cookies), 'cron', second=10)
+        self.scheduler.add_job(partial(self.job, cookies), 'cron', **{
+            'hour': self.hour if self.hour else None,
+            'minute': self.minute if self.minute else None,
+            'second': self.second if self.second else None
+        })
         self.scheduler.start()
 
 
 if __name__ == '__main__':
     ...
-    # course_recruit_id = '4e50585944524258454a585858415f45'
-    # zhs = ZhiHuiShu()
-    # zhs.set_cookies(
-    #     'exitRecod_Xk5lBkPo=2; o_session_id=C5FBAB032CC3DD3D87707E6BAF7881DE; Z_LOCALE=1; CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBkPo%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; CASTGC=TGT-3203136-etgFWv5hWZUx7eU9zPbHRyXGqqPUQE1BKdKbtgyPc4dMfeWLSw-passport.zhihuishu.com; acw_tc=2f624a6516200339003412898e519ad2e7231cec92145ea9e08ae0ee4abe8d; SESSION=MzQyMTBjNzAtNTY3ZC00MWFlLTliYWItMDc1MDg5Yjg3NTk1; SERVERID=b1981271024e2ffaaf63c337b5db4f00|1620034487|1620033900'
-    # )
+    c = '4e50585944524258454a585858415f45'
+    a = ZhiHuiShu()
+    a.set_cookies(
+        'INGRESSCOOKIE=1619774087.702.26997.796044; exitRecod_Xk5lBkPo=2; o_session_id=C5FBAB032CC3DD3D87707E6BAF7881DE; Z_LOCALE=1; CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBkPo%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; CASTGC=TGT-3302538-bXXyvndAaPksJvqkRumuQISXOk4oVkZZCJNCUb53xtzmRvL0qf-passport.zhihuishu.com; acw_tc=2f624a2d16201110910678099e433d665fb123805379b06b122a8d46208bbd; SESSION=OWQyMGI3ZjQtZWVkOS00ODQ4LTg3MmQtNzI3M2Y4MmMxNmVj; SERVERID=58a6d0bed134adfd5bca4c165678e873|1620111126|1620111091'
+    )
+    a.share_course()
     # zhs.get_user_info()
     # # zhs.login()
     #
@@ -671,7 +728,7 @@ if __name__ == '__main__':
     # "4e4241454551554a4a40464d53504a484b45445a54484b494046585f4b4b49474d5d5c49414144445a554a4d4242445154414f4b41455f5f4a4a4a4445505449"
 
     # test scheduler
-    zhscw = ZhiHuiShuCourseWorkerBlocking('4e50585944524258454a585858415f45')
-    # zhscw.start()
-    zhscw.start_with_cookies(
-        'exitRecod_Xk5lBkPo=2; o_session_id=C5FBAB032CC3DD3D87707E6BAF7881DE; Z_LOCALE=1; CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBkPo%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; CASTGC=TGT-3203136-etgFWv5hWZUx7eU9zPbHRyXGqqPUQE1BKdKbtgyPc4dMfeWLSw-passport.zhihuishu.com; acw_tc=2f624a6516200339003412898e519ad2e7231cec92145ea9e08ae0ee4abe8d; SESSION=MzQyMTBjNzAtNTY3ZC00MWFlLTliYWItMDc1MDg5Yjg3NTk1; SERVERID=b1981271024e2ffaaf63c337b5db4f00|1620034487|1620033900')
+    # zhscw = ZhiHuiShuCourseWorkerBlocking('4e50585944524258454a585858415f45')
+    # # zhscw.start()
+    # zhscw.start_with_cookies(
+    #     'exitRecod_Xk5lBkPo=2; o_session_id=C5FBAB032CC3DD3D87707E6BAF7881DE; Z_LOCALE=1; CASLOGC=%7B%22realName%22%3A%22%E8%92%8B%E4%BF%8A%E6%9D%B0%22%2C%22myuniRole%22%3A0%2C%22myinstRole%22%3A0%2C%22userId%22%3A814330163%2C%22headPic%22%3A%22https%3A%2F%2Fimage.zhihuishu.com%2Fzhs%2Fablecommons%2Fdemo%2F201804%2F4aee171746a7437bad86d0699197df9f_s3.jpg%22%2C%22uuid%22%3A%22Xk5lBkPo%22%2C%22mycuRole%22%3A0%2C%22username%22%3A%220c7fa4b6e5174d95943f1922e0f17440%22%7D; CASTGC=TGT-3203136-etgFWv5hWZUx7eU9zPbHRyXGqqPUQE1BKdKbtgyPc4dMfeWLSw-passport.zhihuishu.com; acw_tc=2f624a6516200339003412898e519ad2e7231cec92145ea9e08ae0ee4abe8d; SESSION=MzQyMTBjNzAtNTY3ZC00MWFlLTliYWItMDc1MDg5Yjg3NTk1; SERVERID=b1981271024e2ffaaf63c337b5db4f00|1620034487|1620033900')
