@@ -1,0 +1,8 @@
+//修改为 mirai.config.json
+
+{
+  "host": "http://xxx.xxx.xxx.xxx:xxx",
+  "auth_key": "xxxxxx",
+  "qq": 1234455,
+  "target_group": 11345678
+}

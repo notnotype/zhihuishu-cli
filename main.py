@@ -635,19 +635,19 @@ class ZhiHuiShuCourseWorkerBlocking:
         self.scheduler = BlockingScheduler()
 
     def job_start(self):
-        pass
+        logger.info('开始学习')
 
     def before_qr(self):
-        pass
+        logger.info('请扫码')
 
     def after_qrcode(self):
-        pass
+        logger.info('扫码成功')
 
     def job_finish(self):
-        pass
+        logger.info('全部学完了')
 
     def lesson_finish(self):
-        pass
+        logger.info('学完这一课了')
 
     def get_zhs(self, cookies: str = None) -> ZhiHuiShu:
 
@@ -662,8 +662,19 @@ class ZhiHuiShuCourseWorkerBlocking:
         # sleep(random.randrange(0, 1000))
 
         self.job_start()
-        zhs = self.get_zhs(cookies)
 
+        flag = False
+
+        while not flag:
+            try:
+                zhs = self.get_zhs(cookies)
+            except RuntimeError as e:
+                logger.exception(e)
+                logger.info('job尝试重新登录')
+            else:
+                flag = True
+
+        # noinspection PyUnboundLocalVariable
         vl = zhs.video_list(self.course_recruit_id)
         si = zhs.query_study_info(vl)
 
@@ -680,7 +691,6 @@ class ZhiHuiShuCourseWorkerBlocking:
                     break
 
         self.job_finish()
-        logger.info('学习完毕')
         zhs.close()
 
     def start(self):

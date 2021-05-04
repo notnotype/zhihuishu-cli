@@ -123,11 +123,11 @@ def study(course_id: str, lesson_id: int):
 
 
 @root.command()
-@click.option('--hour' '-h', type=int, required=False)
-@click.option('--minute', '-m', type=int, required=False)
-@click.option('--second', '-s', type=int, required=False)
-@click.option('--count', '-c', type=int, required=False)
-@click.argument('course_id', type=str, required=False)
+@click.option('--hour', '-h', type=int, required=False, default=21)
+@click.option('--minute', '-m', type=int, required=False, default=0)
+@click.option('--second', '-s', type=int, required=False, default=0)
+@click.option('--count', '-c', type=int, required=False, default=0)
+@click.argument('course_id', type=str, required=False, default=2)
 def run_course(course_id: str, hour: int, minute: int, second: int, count: int):
     click.echo(info('该命令处于测试阶段'))
     ic(course_id, hour, minute, second, count)
@@ -138,11 +138,11 @@ def run_course(course_id: str, hour: int, minute: int, second: int, count: int):
 
 
 @root.command()
-@click.option('--hour', '-h', type=int, required=False)
-@click.option('--minute', '-m', type=int, required=False)
-@click.option('--second', '-s', type=int, required=False)
-@click.option('--count', '-c', type=int, required=False)
-@click.argument('course_id', type=str, required=False)
+@click.option('--hour', '-h', type=int, required=False, default=21)
+@click.option('--minute', '-m', type=int, required=False, default=0)
+@click.option('--second', '-s', type=int, required=False, default=0)
+@click.option('--count', '-c', type=int, required=False, default=0)
+@click.argument('course_id', type=str, required=False, default=2)
 def deploy_mirai(course_id: str, hour: int, minute: int, second: int, count: int):
     click.echo(bad('个人使用, 因为此命令接口不完善'))
     ic(course_id, hour, minute, second, count)
