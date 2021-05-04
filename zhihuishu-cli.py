@@ -15,7 +15,6 @@ import click
 from icecream import ic
 from huepy import *
 
-from deploy import ZhiHuiShuCourseWorkerBlockingMirai
 from main import ZhiHuiShu, ZhiHuiShuCourseWorkerBlocking
 
 
@@ -225,6 +224,7 @@ def run_course(course_id: str, hour: int, minute: int, second: int, count: int):
 @click.option('--count', '-c', type=int, required=False, default=0)
 @click.argument('course_id', type=str, required=False, default=2)
 def deploy_mirai(course_id: str, hour: int, minute: int, second: int, count: int):
+    from deploy import ZhiHuiShuCourseWorkerBlockingMirai
     click.echo(bad('个人使用, 因为此命令接口不完善'))
     ic(course_id, hour, minute, second, count)
     zhscw = ZhiHuiShuCourseWorkerBlockingMirai(

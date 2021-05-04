@@ -14,40 +14,42 @@
 
 ## 快速上手(QuickStart)
 
-### 使用pip安装
+### clone项目安装
 
 ```shell
-pip install zhihuishu-cli
+git clone https://www.github.com/notnotype/zhihuishu-cli.git
+cd zhihuishu-cli
+pip install -r reqirements.txt
 ```
 
 ### 获取共享课程
 
 ```shell
-zhihuishu-cli share-course
+python zhihuishu-cli.py share-course
 ```
 
 ### 获取章节列表
 
 ```shell
-zhihuishu-cli chapters 4e50585944524258454a585858415f45
+python zhihuishu-cli.py chapters 4e50585944524258454a585858415f45
 ```
 
 ### 获取小节列表
 
 ```shell
-zhihuishu-cli sections 4e50585944524258454a585858415f45 1000107271
+python zhihuishu-cli.py sections 4e50585944524258454a585858415f45 1000107271
 ```
 
 ### 获取小课程列表
 
 ```shell
-zhihuishu-cli lessons 4e50585944524258454a585858415f45 1000107271 1000299421
+python zhihuishu-cli.py lessons 4e50585944524258454a585858415f45 1000107271 1000299421
 ```
 
 ### 开始学习
 
 ```shell
-zhihuishu-cli study 4e50585944524258454a585858415f45 1000219410
+python zhihuishu-cli.py study 4e50585944524258454a585858415f45 1000219410
 ```
 
 ### 每天自动学习
@@ -55,7 +57,7 @@ zhihuishu-cli study 4e50585944524258454a585858415f45 1000219410
 > 默认为每天21点自动打开二维码认证
 
 ```shell
-python3 zhihuishu-cli.py 4e50585944524258454a585858415f45
+python zhihuishu-cli.py 4e50585944524258454a585858415f45
 ```
 
 ### 使用mirai部署
@@ -67,13 +69,13 @@ python3 zhihuishu-cli.py 4e50585944524258454a585858415f45
 > 模板文件在`/mirai/mirai.config.template.json`
 
 ```shell
-python3 zhihuishu-cli.py deploy-mirai 4e50585944524258454a585858415f45
+python zhihuishu-cli.py deploy-mirai 4e50585944524258454a585858415f45
 ```
 
 ### 获取帮助信息
 
 ```shell
-zhihuishu-cli --help
+python zhihuishu-cli.py --help
 ```
 
 ### 第一次使用, 或者长时间未使用会弹出二维码进行认证
