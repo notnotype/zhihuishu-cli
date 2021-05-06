@@ -19,7 +19,7 @@
 ```shell
 git clone https://www.github.com/notnotype/zhihuishu-cli.git
 cd zhihuishu-cli
-pip install -r reqirements.txt
+pip install -r requirements.txt
 ```
 
 ### 获取共享课程
