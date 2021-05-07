@@ -57,26 +57,42 @@ python zhihuishu-cli.py study 4e50585944524258454a585858415f45 1000219410
 > 默认为每天21点自动打开二维码认证
 
 ```shell
-python zhihuishu-cli.py 4e50585944524258454a585858415f45
+python zhihuishu-cli.py run_course 4e50585944524258454a585858415f45
 ```
 
 ### 使用mirai部署
 
 > 先配置mirai-api-http
-> 
+>
 > 然后将一些mirai-api-http配置信息填入`/mirai/mirai.config.json`里面
-> 
+>
 > 模板文件在`/mirai/mirai.config.template.json`
 
 ```shell
 python zhihuishu-cli.py deploy-mirai 4e50585944524258454a585858415f45
-```
+``` 
 
 ### 获取帮助信息
 
 ```shell
 python zhihuishu-cli.py --help
 ```
+
+### 自定义部署
+
+```shell
+python zhihuishu-cli.py deploy test:Test 4e50585944524258454a585858415f45 -c 3
+```
+
+新建一个文件继承 `ZhiHuiShuCourseWorkerBlocking` 类, 可以覆写以下方法
+
+- course_start 创建调度器之前, (输入命令后)
+- course_end 创建调度器之后, (已经完成这门课程)
+- job_start 调度时间到 (开始今天的任务)
+- job_finish 调度完成 (今天的任务完成啦)
+- before_qr 在弹出二维码之前
+- after_qrcode 在扫描二维码之后
+- lesson_finish 看完一个视频后
 
 ### 第一次使用, 或者长时间未使用会弹出二维码进行认证
 
@@ -85,6 +101,11 @@ python zhihuishu-cli.py --help
 > 二维码图片在项目目录下 `/qrcode.jpg`
 
 使用手机`知道app`扫码即可
+
+## 其他说明
+
+### 删除`.zhihuishurc`文件即可清除本地cookie
+### 二维码120s后过期
 
 ## 运行截图
 

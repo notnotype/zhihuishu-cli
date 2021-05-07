@@ -31,7 +31,7 @@ class DateTimeTimer:
     delta: timedelta
     interval: float
 
-    def __init__(self, delta: Union[datetime, int, timedelta], interval=0):
+    def __init__(self, delta: Union[datetime, int, timedelta], interval:float=0):
         now = datetime.now()
         if isinstance(delta, datetime):
             delta = delta - now
@@ -148,7 +148,7 @@ class ZhiHuiShu:
         ws_url = f'wss://appcomm-user.zhihuishu.com/app-commserv-user/websocket?qrToken={qr_token}'
         ws = create_connection(ws_url)
 
-        timer = DateTimeTimer(180, interval=2)  # 30 seconds
+        timer = DateTimeTimer(120, interval=.8)  # 30 seconds
         response = None
         while timer:
             ws.send(qr_token)
@@ -596,7 +596,7 @@ class ZhiHuiShu:
             total_study_time_fun, 'interval', seconds=4.99
         )
         scheduler.add_job(
-            detect_finish, 'interval', seconds=1.5
+            detect_finish, 'interval', seconds=4.99
         )
         scheduler.add_job(
             save_database, 'interval', seconds=120

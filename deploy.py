@@ -42,6 +42,12 @@ class ZhiHuiShuCourseWorkerBlocking:
     def lesson_finish(self):
         logger.info('学完这一课了')
 
+    def course_start(self):
+        logger.info('开始学习这一门课程啦')
+
+    def course_end(self):
+        logger.info('这一门课程学完啦')
+
     def get_zhs(self, cookies: str = None) -> ZhiHuiShu:
 
         zhs = ZhiHuiShu()
@@ -73,8 +79,10 @@ class ZhiHuiShuCourseWorkerBlocking:
 
         sc = self.study_count
 
+        flag = False
         for k, v in si['lv'].items():
             if v['watchState'] == 0 and 'learnTime' not in v:
+                flag = True
                 pln = zhs.pre_learning_note(int(k), vl)
                 logger.info(f'开始学习: {int(k)}')
                 zhs.start_watch_blocking(int(k), vl, si, pln)
@@ -82,6 +90,10 @@ class ZhiHuiShuCourseWorkerBlocking:
                 sc -= 1
                 if sc <= 0:
                     break
+        if not flag:
+            # 没有一节课了
+            self.scheduler.remove_all_jobs()
+            self.scheduler.shutdown(wait=False)
 
         self.job_finish()
         zhs.close()
@@ -113,6 +125,12 @@ def force_auth(_qq: int):
 
 
 class ZhiHuiShuCourseWorkerBlockingMirai(ZhiHuiShuCourseWorkerBlocking):
+    def course_start(self):
+        super().course_start()
+
+    def course_end(self):
+        super().course_end()
+
     def job_start(self):
         force_auth(qq)
         client.send_group_message(target_group, '开始学习')

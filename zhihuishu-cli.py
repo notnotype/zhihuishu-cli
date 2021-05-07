@@ -207,7 +207,6 @@ def study(course_id: str, lesson_id: int):
 @click.argument('course_id', type=str, required=True)
 def run_course(course_id: str, hour: int, minute: int, second: int, count: int):
     from deploy import ZhiHuiShuCourseWorkerBlocking
-    click.echo(info('该命令处于测试阶段'))
     ic(course_id, hour, minute, second, count)
     zhscw = ZhiHuiShuCourseWorkerBlocking(
         course_id, hour=hour, minute=minute, second=second, study_count=count
@@ -223,7 +222,7 @@ def run_course(course_id: str, hour: int, minute: int, second: int, count: int):
 @click.argument('course_id', type=str, required=True)
 def deploy_mirai(course_id: str, hour: int, minute: int, second: int, count: int):
     from deploy import ZhiHuiShuCourseWorkerBlockingMirai
-    click.echo(bad('个人使用, 因为此命令接口不完善'))
+    click.echo(bad('个人使用, 因为此命令接口不完善, 并且文档不全'))
     ic(course_id, hour, minute, second, count)
     zhscw = ZhiHuiShuCourseWorkerBlockingMirai(
         course_id, hour=hour, minute=minute, second=second, study_count=count
