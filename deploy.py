@@ -137,7 +137,7 @@ class ZhiHuiShuCourseWorkerBlockingMirai(ZhiHuiShuCourseWorkerBlocking):
 
     def lesson_finish(self):
         force_auth(qq)
-        client.send_group_message(target_group, '扫码成功')
+        client.send_group_message(target_group, '一节课完成啦')
 
     def __init__(self, course_id: str, hour=21, minute=0, second=0, study_count=3):
         super(ZhiHuiShuCourseWorkerBlockingMirai, self).__init__(
