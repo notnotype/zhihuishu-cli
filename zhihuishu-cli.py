@@ -204,7 +204,7 @@ def study(course_id: str, lesson_id: int):
 @click.option('--minute', '-m', type=int, required=False, default=0)
 @click.option('--second', '-s', type=int, required=False, default=0)
 @click.option('--count', '-c', type=int, required=False, default=2)
-@click.argument('course_id', type=str, required=False)
+@click.argument('course_id', type=str, required=True)
 def run_course(course_id: str, hour: int, minute: int, second: int, count: int):
     from deploy import ZhiHuiShuCourseWorkerBlocking
     click.echo(info('该命令处于测试阶段'))
@@ -220,7 +220,7 @@ def run_course(course_id: str, hour: int, minute: int, second: int, count: int):
 @click.option('--minute', '-m', type=int, required=False, default=0)
 @click.option('--second', '-s', type=int, required=False, default=0)
 @click.option('--count', '-c', type=int, required=False, default=2)
-@click.argument('course_id', type=str, required=False)
+@click.argument('course_id', type=str, required=True)
 def deploy_mirai(course_id: str, hour: int, minute: int, second: int, count: int):
     from deploy import ZhiHuiShuCourseWorkerBlockingMirai
     click.echo(bad('个人使用, 因为此命令接口不完善'))
@@ -229,6 +229,29 @@ def deploy_mirai(course_id: str, hour: int, minute: int, second: int, count: int
         course_id, hour=hour, minute=minute, second=second, study_count=count
     )
     zhscw.start()
+
+
+@root.command()
+@click.option('--hour', '-h', type=int, required=False, default=21)
+@click.option('--minute', '-m', type=int, required=False, default=0)
+@click.option('--second', '-s', type=int, required=False, default=0)
+@click.option('--count', '-c', type=int, required=False, default=2)
+@click.argument('entry', type=str, required=True)
+@click.argument('course_id', type=str, required=False)
+def deploy(**kwargs):
+    from deploy import ZhiHuiShuCourseWorkerBlocking
+    from importlib import import_module
+
+    entry = kwargs.pop('entry')
+    kwargs['study_count'] = kwargs.pop('count')
+
+    module_name, attr_name = entry.split(':')
+    module = import_module(module_name)
+    attr = getattr(module, attr_name)
+    if not issubclass(attr, ZhiHuiShuCourseWorkerBlocking):
+        ic(f'错误, {str(attr)}不是ZhiHuiShuCourseWorkerBlocking的子类')
+    else:
+        attr(**kwargs).start()
 
 
 if __name__ == '__main__':
