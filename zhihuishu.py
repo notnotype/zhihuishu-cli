@@ -29,21 +29,21 @@ def show_qr(img_path='qrcode.jpg'):
 class DateTimeTimer:
     start_time: datetime
     delta: timedelta
-    sep_time: float
+    interval: float
 
-    def __init__(self, delta: Union[datetime, int, timedelta], sep_time=0):
+    def __init__(self, delta: Union[datetime, int, timedelta], interval=0):
         now = datetime.now()
         if isinstance(delta, datetime):
             delta = delta - now
         elif isinstance(delta, int):
             delta = timedelta(seconds=delta)
         self.delta = delta
-        self.sep_time = sep_time
+        self.interval = interval
 
         self.start_time = now
 
     def __bool__(self):
-        sleep(self.sep_time)
+        sleep(self.interval)
         return bool(self.start_time + self.delta > datetime.now())
 
 
@@ -148,7 +148,7 @@ class ZhiHuiShu:
         ws_url = f'wss://appcomm-user.zhihuishu.com/app-commserv-user/websocket?qrToken={qr_token}'
         ws = create_connection(ws_url)
 
-        timer = DateTimeTimer(180, sep_time=2)  # 30 seconds
+        timer = DateTimeTimer(180, interval=2)  # 30 seconds
         response = None
         while timer:
             ws.send(qr_token)
