@@ -3,7 +3,7 @@
 @date: 2021/5/3
 @license: MIT
 
-智慧树命令行接口, 是`main.py`的命令行接口
+智慧树命令行接口, 是`zhihuishu.py`的命令行接口
 """
 import pickle
 import os
@@ -15,7 +15,7 @@ import click
 from icecream import ic
 from huepy import *
 
-from main import ZhiHuiShu, ZhiHuiShuCourseWorkerBlocking
+from zhihuishu import ZhiHuiShu
 
 
 def load_session(file='.zhihuishurc') -> ZhiHuiShu:
@@ -95,7 +95,6 @@ def _(course_id: int):
     zhs = awesome_login()
 
     video_list = zhs.video_list(course_id)
-    study_info = zhs.query_study_info(video_list)
 
     click.echo(green(f'课程id: [{course_id}]'))
 
@@ -117,7 +116,6 @@ def _(course_id: str, chapter_id: int):
     zhs = awesome_login()
 
     video_list = zhs.video_list(course_id)
-    study_info = zhs.query_study_info(video_list)
 
     click.echo(green(f'课程id: [{course_id}]'))
 
@@ -151,7 +149,6 @@ def _(course_id: str, chapter_id: int, section_id: int):
     zhs = awesome_login()
 
     video_list = zhs.video_list(course_id)
-    study_info = zhs.query_study_info(video_list)
 
     click.echo(green(f'课程id: [{course_id}]'))
 
@@ -198,7 +195,7 @@ def study(course_id: str, lesson_id: int):
     vl = zhs.video_list(course_id)
     si = zhs.query_study_info(vl)
 
-    pln = zhs.pre_learning_note(lesson_id, vl, si)
+    pln = zhs.pre_learning_note(lesson_id, vl)
     zhs.start_watch_blocking(lesson_id, vl, si, pln)
 
 
@@ -206,9 +203,10 @@ def study(course_id: str, lesson_id: int):
 @click.option('--hour', '-h', type=int, required=False, default=21)
 @click.option('--minute', '-m', type=int, required=False, default=0)
 @click.option('--second', '-s', type=int, required=False, default=0)
-@click.option('--count', '-c', type=int, required=False, default=0)
-@click.argument('course_id', type=str, required=False, default=2)
+@click.option('--count', '-c', type=int, required=False, default=2)
+@click.argument('course_id', type=str, required=False)
 def run_course(course_id: str, hour: int, minute: int, second: int, count: int):
+    from deploy import ZhiHuiShuCourseWorkerBlocking
     click.echo(info('该命令处于测试阶段'))
     ic(course_id, hour, minute, second, count)
     zhscw = ZhiHuiShuCourseWorkerBlocking(
@@ -221,8 +219,8 @@ def run_course(course_id: str, hour: int, minute: int, second: int, count: int):
 @click.option('--hour', '-h', type=int, required=False, default=21)
 @click.option('--minute', '-m', type=int, required=False, default=0)
 @click.option('--second', '-s', type=int, required=False, default=0)
-@click.option('--count', '-c', type=int, required=False, default=0)
-@click.argument('course_id', type=str, required=False, default=2)
+@click.option('--count', '-c', type=int, required=False, default=2)
+@click.argument('course_id', type=str, required=False)
 def deploy_mirai(course_id: str, hour: int, minute: int, second: int, count: int):
     from deploy import ZhiHuiShuCourseWorkerBlockingMirai
     click.echo(bad('个人使用, 因为此命令接口不完善'))
