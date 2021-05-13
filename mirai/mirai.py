@@ -120,7 +120,6 @@ class Mirai:
         response = self.session.post(url=url, files=files)
         response.raise_for_status()
 
-
         if response.text:
             json_data = response.json()
             return json_data['imageId']
@@ -171,6 +170,16 @@ class Mirai:
         else:
             self.raise_for_api_code(json_data['code'])
 
-    # todo chain call
-    # def group_message(self):
-    #     ...
+    def fetch_message(self, count: int = 10):
+        url = urljoin(
+            self.base_url, f'/fetchMessage?sessionKey={self.token}&count={count}'
+            # self.base_url, f'/countMessage?sessionKey={self.token}'
+        )
+
+        response = self.session.get(url=url)
+        response.raise_for_status()
+        json_data = response.json()
+        if json_data['code'] != 0:
+            self.raise_for_api_code(json_data['code'])
+
+        return json_data['data']
