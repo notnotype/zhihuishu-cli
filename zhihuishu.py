@@ -260,7 +260,7 @@ class ZhiHuiShu:
                 'status': 0,
                 'pageNo': 1,
                 'pageSize': 5,
-                'uuid': 'Xk5lBkPo',
+                'uuid': self.uuid,
                 'date': '2021 - 05 - 04T06 % 3A52 % 3A06.392Z',
             }
         )

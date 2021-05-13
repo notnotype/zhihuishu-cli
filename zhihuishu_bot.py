@@ -115,4 +115,14 @@ class ZhiHuiShuBot:
 
 if __name__ == '__main__':
     zbot = ZhiHuiShuBot(client)
-    zbot.run()
+    error = 10
+    try:
+        zbot.run()
+    except KeyboardInterrupt:
+        exit(0)
+    except Exception as e:
+        zbot.bot.send_group_message(target_group, f'智慧树bot报错{str(e)}')
+        sleep(1)
+        error -= 1
+        if error < 0:
+            exit(0)
