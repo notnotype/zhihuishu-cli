@@ -29,7 +29,6 @@ def force_auth(_qq: int):
 class ZhiHuiShuBot:
     def __init__(self, bot: Mirai):
         self.bot = bot
-        ...
 
     def before_qr(self):
         self.bot.send_group_message(target_group, '请扫码登录')
@@ -53,7 +52,7 @@ class ZhiHuiShuBot:
 
     def job(self, course_recruit_id: str, sc=None):
 
-        sc = 1 or sc
+        sc = sc or 1
 
         zhs = self.get_zhs()
         vl = zhs.video_list(course_recruit_id)
@@ -78,11 +77,11 @@ class ZhiHuiShuBot:
                 if each['type'] != 'GroupMessage':
                     continue
 
-                logger.debug('processing message: {}', each)
                 if each['sender']['group']['id'] == target_group:
+                    logger.debug('recv message: {}', each)
                     for message in each['messageChain']:
                         if message['type'] == 'Plain':
-                            if m := re.match('智慧树 ([a-zA-Z0-9]+)\s?([0-9])*', message['text']):
+                            if m := re.match('智慧树 ([a-zA-Z0-9]+)\s?([0-9]+)*', message['text']):
                                 # 智慧树 course_recruit_id [count]
                                 logger.info('matched{}', message['text'])
                                 t = Thread(target=partial(self.job, *m.groups()))
@@ -116,13 +115,17 @@ class ZhiHuiShuBot:
 if __name__ == '__main__':
     zbot = ZhiHuiShuBot(client)
     error = 10
-    try:
-        zbot.run()
-    except KeyboardInterrupt:
-        exit(0)
-    except Exception as e:
-        zbot.bot.send_group_message(target_group, f'智慧树bot报错{str(e)}')
-        sleep(1)
-        error -= 1
-        if error < 0:
+    while True:
+        try:
+            zbot.run()
+        except KeyboardInterrupt:
             exit(0)
+        except Exception as e:
+            if isinstance(e, RuntimeError) and '扫码超时' in e.args:
+                zbot.bot.send_group_message(target_group, '扫码超时')
+            else:
+                zbot.bot.send_group_message(target_group, f'智慧树bot报错{str(e)}')
+                sleep(2)
+                error -= 1
+                if error < 0:
+                    exit(0)
