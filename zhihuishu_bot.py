@@ -7,10 +7,11 @@ from threading import Thread
 from loguru import logger
 from apscheduler.schedulers.blocking import BlockingScheduler
 
-from mirai import Mirai, MessageChain, ic
+from mirai import Mirai, MessageChain, ic, MiraiStatusError
 from mirai.messages import Image
 from zhihuishu import ZhiHuiShu
 
+logger.add("logs/{time}.log", encoding='utf8')
 mirai_config = loads(open('./mirai/mirai.config.json', 'r').read())
 qq = mirai_config['qq']
 target_group = mirai_config['target_group']
@@ -123,9 +124,13 @@ if __name__ == '__main__':
         except Exception as e:
             if isinstance(e, RuntimeError) and '扫码超时' in e.args:
                 zbot.bot.send_group_message(target_group, '扫码超时')
+            elif isinstance(e, MiraiStatusError) and '错误代码[5]' in e.args[0]:
+                logger.debug('错误代码[5]')
             else:
+                logger.exception(e)
                 zbot.bot.send_group_message(target_group, f'智慧树bot报错{str(e)}')
                 sleep(2)
                 error -= 1
                 if error < 0:
+                    zbot.bot.send_group_message(target_group, f'错太多了， server down， {str(e)}')
                     exit(0)
