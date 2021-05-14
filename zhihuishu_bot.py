@@ -11,7 +11,7 @@ from mirai import Mirai, MessageChain, ic, MiraiStatusError
 from mirai.messages import Image
 from zhihuishu import ZhiHuiShu
 
-logger.add("logs/{time}.log", encoding='utf8')
+logger.add("logs/zhihuishubot-{time}.log", encoding='utf8')
 mirai_config = loads(open('./mirai/mirai.config.json', 'r').read())
 qq = mirai_config['qq']
 target_group = mirai_config['target_group']
@@ -52,23 +52,30 @@ class ZhiHuiShuBot:
         return zhs
 
     def job(self, course_recruit_id: str, sc=None):
+        try:
+            sc = sc or 1
 
-        sc = sc or 1
+            zhs = self.get_zhs()
+            vl = zhs.video_list(course_recruit_id)
+            si = zhs.query_study_info(vl)
 
-        zhs = self.get_zhs()
-        vl = zhs.video_list(course_recruit_id)
-        si = zhs.query_study_info(vl)
-
-        for k, v in si['lv'].items():
-            if v['watchState'] == 0 and 'learnTime' not in v:
-                pln = zhs.pre_learning_note(int(k), vl)
-                logger.info(f'开始学习: {int(k)}')
-                zhs.start_watch_blocking(int(k), vl, si, pln)
-                self.lesson_finish()
-                sc -= 1
-                if sc <= 0:
-                    break
-        self.finish()
+            for k, v in si['lv'].items():
+                if v['watchState'] == 0 and 'learnTime' not in v:
+                    pln = zhs.pre_learning_note(int(k), vl)
+                    logger.info(f'开始学习: {int(k)}')
+                    zhs.start_watch_blocking(int(k), vl, si, pln)
+                    self.lesson_finish()
+                    sc -= 1
+                    if sc <= 0:
+                        break
+            self.finish()
+        except Exception as e:
+            if isinstance(e, RuntimeError) and '扫码超时' in e.args:
+                zbot.bot.send_group_message(target_group, '扫码超时')
+            else:
+                logger.exception(e)
+                zbot.bot.send_group_message(target_group, f'智慧树bot报错{str(e)}')
+                sleep(2)
 
     def run(self):
         interval = .5
