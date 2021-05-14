@@ -41,10 +41,10 @@ class ZhiHuiShuBot:
         self.bot.send_group_message(target_group, '扫码成功')
 
     def lesson_finish(self):
-        self.bot.send_group_message(target_group, '学完这一课了')
+        self.bot.send_group_message(target_group, '水完这一课了')
 
     def finish(self):
-        self.bot.send_group_message(target_group, 'ok')
+        self.bot.send_group_message(target_group, '安排的任务全部水完了')
 
     def get_zhs(self) -> ZhiHuiShu:
         zhs = ZhiHuiShu()
@@ -54,6 +54,7 @@ class ZhiHuiShuBot:
     def job(self, course_recruit_id: str, sc=None):
         try:
             sc = sc or 1
+            sc = int(sc)
 
             zhs = self.get_zhs()
             vl = zhs.video_list(course_recruit_id)
@@ -78,7 +79,7 @@ class ZhiHuiShuBot:
                 sleep(2)
 
     def run(self):
-        interval = .5
+        interval = 1
         while True:
             data = self.bot.fetch_message()
             for each in data:
@@ -129,9 +130,7 @@ if __name__ == '__main__':
         except KeyboardInterrupt:
             exit(0)
         except Exception as e:
-            if isinstance(e, RuntimeError) and '扫码超时' in e.args:
-                zbot.bot.send_group_message(target_group, '扫码超时')
-            elif isinstance(e, MiraiStatusError) and '错误代码[5]' in e.args[0]:
+            if isinstance(e, MiraiStatusError) and '错误代码[5]' in e.args[0]:
                 logger.debug('错误代码[5]')
             else:
                 logger.exception(e)
