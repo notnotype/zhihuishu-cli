@@ -90,7 +90,7 @@ class ZhiHuiShuBot:
                     logger.debug('recv message: {}', each)
                     for message in each['messageChain']:
                         if message['type'] == 'Plain':
-                            if m := re.match('智慧树 ([a-zA-Z0-9]+)\s?([0-9]+)*', message['text']):
+                            if m := re.match('智慧树 (:?开始水课)? ([a-zA-Z0-9]+)\s?([0-9]+)*', message['text']):
                                 # 智慧树 course_recruit_id [count]
                                 logger.info('matched{}', message['text'])
                                 t = Thread(target=partial(self.job, *m.groups()))
