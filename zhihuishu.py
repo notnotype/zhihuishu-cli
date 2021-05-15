@@ -148,7 +148,7 @@ class ZhiHuiShu:
         ws_url = f'wss://appcomm-user.zhihuishu.com/app-commserv-user/websocket?qrToken={qr_token}'
         ws = create_connection(ws_url)
 
-        timer = DateTimeTimer(120, interval=.8)  # 30 seconds
+        timer = DateTimeTimer(70, interval=.8)  # 30 seconds
         response = None
         while timer:
             ws.send(qr_token)
@@ -487,10 +487,11 @@ class ZhiHuiShu:
 
     def start_watch_blocking(
             self, lesson_id, video_list: Dict, study_info: Dict, pre_note_info: Dict,
-            play_rate: int = 1, total_study_time: int = 0, play_time: int = 0
+            play_rate: int = 1, total_study_time: int = 0, play_time: int = 0, submit_interval: int = 120
     ):
         """
 
+        :param submit_interval:
         :param play_time:
         :param play_rate:
         :param total_study_time:
@@ -608,7 +609,7 @@ class ZhiHuiShu:
             detect_finish, 'interval', seconds=4.99
         )
         scheduler.add_job(
-            save_database, 'interval', seconds=120
+            save_database, 'interval', seconds=submit_interval
         )
 
         scheduler.start()
