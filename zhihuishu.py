@@ -31,7 +31,7 @@ class DateTimeTimer:
     delta: timedelta
     interval: float
 
-    def __init__(self, delta: Union[datetime, int, timedelta], interval:float=0):
+    def __init__(self, delta: Union[datetime, int, timedelta], interval: float = 0):
         now = datetime.now()
         if isinstance(delta, datetime):
             delta = delta - now
@@ -485,9 +485,15 @@ class ZhiHuiShu:
         else:
             raise RuntimeError('没有可用的视频线路', json_data)
 
-    def start_watch_blocking(self, lesson_id, video_list: Dict, study_info: Dict, pre_note_info: Dict):
+    def start_watch_blocking(
+            self, lesson_id, video_list: Dict, study_info: Dict, pre_note_info: Dict,
+            play_rate: int = 1, total_study_time: int = 0, play_time: int = 0
+    ):
         """
 
+        :param play_time:
+        :param play_rate:
+        :param total_study_time:
         :param pre_note_info:
         :param lesson_id:
         :param video_list:
@@ -516,9 +522,9 @@ class ZhiHuiShu:
         },
         '''
         this = {
-            'play_rate': 1,  # useful
-            'total_study_time': 0,  # 总共播放了多久
-            'play_time': 0,  # 自上次提交播放了多久
+            'play_rate': play_rate,  # useful
+            'total_study_time': total_study_time,  # 总共播放了多久
+            'play_time': play_time,  # 自上次提交播放了多久
             'watch_point_post': '0,1',
             'video_progress': pre_note_info['learnTimeSec']
             if 'learnTimeSec' in pre_note_info else 0  # 本次视频放了多长
@@ -572,6 +578,9 @@ class ZhiHuiShu:
             if this['video_progress'] >= video_length:
                 scheduler.remove_all_jobs()
                 scheduler.shutdown(wait=False)
+                self.submit_progress(lesson_id, video_list, pre_note_info, int(this['play_time']),
+                                     int(this['total_study_time']), this['watch_point_post'],
+                                     int(this['video_progress']))
                 logger.info('finished!')
 
         def learning_time_record():
@@ -607,7 +616,3 @@ class ZhiHuiShu:
 
     def close(self):
         self.client.close()
-
-
-if __name__ == '__main__':
-    ...

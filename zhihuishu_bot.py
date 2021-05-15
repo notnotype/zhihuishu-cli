@@ -51,10 +51,11 @@ class ZhiHuiShuBot:
         zhs.login(True, self.before_qr, self.after_qrcode)
         return zhs
 
-    def job(self, course_recruit_id: str, sc=None):
+    def job(self, course_recruit_id: str, sc=None, rate=None):
         try:
-            sc = sc or 1
-            sc = int(sc)
+            sc = int(sc or 1)
+
+            rate = int(rate or 1)
 
             zhs = self.get_zhs()
             vl = zhs.video_list(course_recruit_id)
@@ -64,7 +65,7 @@ class ZhiHuiShuBot:
                 if v['watchState'] == 0 and 'learnTime' not in v:
                     pln = zhs.pre_learning_note(int(k), vl)
                     logger.info(f'开始学习: {int(k)}')
-                    zhs.start_watch_blocking(int(k), vl, si, pln)
+                    zhs.start_watch_blocking(int(k), vl, si, pln, play_rate=rate)
                     self.lesson_finish()
                     sc -= 1
                     if sc <= 0:
@@ -90,7 +91,10 @@ class ZhiHuiShuBot:
                     logger.debug('recv message: {}', each)
                     for message in each['messageChain']:
                         if message['type'] == 'Plain':
-                            if m := re.match('智慧树 (?:开始水课)? ([a-zA-Z0-9]+)\s?([0-9]+)*', message['text']):
+                            if m := re.match(
+                                    '智慧树(?:\s+开始水课)?\s+([a-zA-Z0-9]+)(?:\s+([0-9]+))?(?:\s+([0-9]+))?',
+                                    message['text']
+                            ):
                                 # 智慧树 course_recruit_id [count]
                                 logger.info('matched{}', message['text'])
                                 t = Thread(target=partial(self.job, *m.groups()))
