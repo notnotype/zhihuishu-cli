@@ -108,6 +108,7 @@ class ZhiHuiShu:
             'Sec-Fetch-User': '?1',
             'Upgrade-Insecure-Requests': '1'
         }.update(kwargs['headers'] if 'headers' in kwargs else {})
+        kwargs['verify'] = False
         for each in self.client.cookies:
             each.path = '/'
         return self.client.get(*args, **kwargs)
@@ -127,6 +128,7 @@ class ZhiHuiShu:
             'Sec-Fetch-User': '?1',
             'Upgrade-Insecure-Requests': '1'
         }.update(kwargs['headers'] if 'headers' in kwargs else {})
+        kwargs['verify'] = False
         for each in self.client.cookies:
             each.path = '/'
         return self.client.post(*args, **kwargs)
