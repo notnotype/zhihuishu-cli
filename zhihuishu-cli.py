@@ -253,5 +253,13 @@ def deploy(**kwargs):
         attr(**kwargs).start()
 
 
+@root.command()
+@click.argument('cookies', type=str, required=True)
+def set_cookies(cookies: str):
+    zhs = ZhiHuiShu()
+    zhs.set_cookies(cookies)
+    save_session(zhs, ".zhihuishurc")
+
+
 if __name__ == '__main__':
     root()

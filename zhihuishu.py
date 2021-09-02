@@ -108,7 +108,7 @@ class ZhiHuiShu:
             'Sec-Fetch-User': '?1',
             'Upgrade-Insecure-Requests': '1'
         }.update(kwargs['headers'] if 'headers' in kwargs else {})
-        kwargs['verify'] = False
+        # kwargs['verify'] = False
         for each in self.client.cookies:
             each.path = '/'
         return self.client.get(*args, **kwargs)
@@ -128,7 +128,7 @@ class ZhiHuiShu:
             'Sec-Fetch-User': '?1',
             'Upgrade-Insecure-Requests': '1'
         }.update(kwargs['headers'] if 'headers' in kwargs else {})
-        kwargs['verify'] = False
+        # kwargs['verify'] = False
         for each in self.client.cookies:
             each.path = '/'
         return self.client.post(*args, **kwargs)
@@ -169,7 +169,8 @@ class ZhiHuiShu:
 
     def login_pwd(self, pwd: str):
         url = f'https://passport.zhihuishu.com/login?pwd={pwd}&' \
-              'service=https://onlineservice.zhihuishu.com/login/gologin'
+              'service=https://onlineservice.zhihuishu.com/login/gologin' \
+              '&u_atype=4&u_atoken=d7fb20b5-b14f-4bba-9435-b28b74fa55b3&u_asession=01-Uw5qPvufSaAFvx-4upqRxUPq0jeULs6QC5DJ3LM9BOhCZUeBQjzfnNVGUQZlESvX0KNBwm7Lovlpxjd_P_q4JsKWYrT3W_NKPr8w6oU7K9rMrJ8hw05slUSREFtert3TWACyXv5Z-q2IFvbMpHxP_J9EHXfqFOxCyFBuG8Ag_c&u_asig=05a2YLfi0MjH9tJMRSFtd2o_JJEzXjcLhm-fszHf90ZvdjxW4Mp2epM1-43Ooyy0-H-w8U65jpBtHF31B-QrcvO8hb0-nUgF7z3u3FrGcCQcxTMRnUsJ-IKnb9e7U_PeIVSc_anMxTMkXlrY3tJR_vmDM6sJ7QYGv1Rny1y5OBf607ozFsiUGsVAeSTqoZj3OTtOSucxbEFxA-Obtky0GrtTXA2HX1wMCOugOB7klIEuIldkfeZ7k7YGpWDiGP6wHRWlxCIsQpvHtXx4E4Ivy-HAlYcKt8HTlUtd_SDvujcAJnz6IwY36iH9Gr5_vdW0_0Uy2HQSnmbzsqjnh294Rx1PCbM8RN5M6ILBITpUDXM_adc8p4MNGF2AF0gAw8gVXx'
         response = self.get(url)
         response.raise_for_status()
         if len(response.history) < 2:
@@ -292,8 +293,10 @@ class ZhiHuiShu:
         for chapter in video_list['videoChapterDtos']:
             for section in chapter['videoLessons']:
                 lesson_form.append(section['id'])
-                for small_lesson in section['videoSmallLessons']:
-                    lv_form.append(small_lesson['id'])
+                # fix #5 不能学习没有small lesson的课程
+                if 'videoSmallLessons' in section:
+                    for small_lesson in section['videoSmallLessons']:
+                        lv_form.append(small_lesson['id'])
 
         form = {}
 
@@ -371,11 +374,22 @@ class ZhiHuiShu:
         flag = False
         for chapter in video_list['videoChapterDtos']:
             for section in chapter['videoLessons']:
-                for lesson in section['videoSmallLessons']:
-                    if lesson['id'] == lesson_id:
-                        section_id = section['id']
+
+                # fix #5 不能学习没有small lesson的课程
+                if 'videoSmallLessons' in section:
+                    for lesson in section['videoSmallLessons']:
+                        if lesson['id'] == lesson_id:
+                            chapter_id = chapter['id']
+                            section_id = section['id']
+                            video_id = lesson['videoId']
+                            flag = True
+                            break
+                else:
+                    if section['id'] == lesson_id:
+                        # 如果该条件成立，则说明该课程没有small lesson，然后构造表单
                         chapter_id = chapter['id']
-                        video_id = lesson['videoId']
+                        section_id = lesson_id
+                        video_id = section['videoId']
                         flag = True
                         break
         if not flag:
@@ -442,11 +456,22 @@ class ZhiHuiShu:
         flag = False
         for chapter in video_list['videoChapterDtos']:
             for section in chapter['videoLessons']:
-                for lesson in section['videoSmallLessons']:
-                    if lesson['id'] == lesson_id:
+
+                # fix #5 不能学习没有small lesson的课程
+                if 'videoSmallLessons' in section:
+                    for lesson in section['videoSmallLessons']:
+                        if lesson['id'] == lesson_id:
+                            chapter_id = chapter['id']
+                            section_id = section['id']
+                            video_id = lesson['videoId']
+                            flag = True
+                            break
+                else:
+                    if section['id'] == lesson_id:
+                        # 如果该条件成立，则说明该课程没有small lesson，然后构造表单
                         chapter_id = chapter['id']
-                        section_id = section['id']
-                        video_id = lesson['videoId']
+                        section_id = lesson_id
+                        video_id = section['videoId']
                         flag = True
                         break
         if not flag:
@@ -457,6 +482,8 @@ class ZhiHuiShu:
             'chapterId': chapter_id,
             'isApply': '1',
             'lessonId': section_id,
+            # 虽然当学习section级别的课程时候，表单不需要这个参数（lessonVideoId），这个参数只当学习small lesson级别的时候用到，但是
+            # 发现多这个参数也没事
             'lessonVideoId': lesson_id,
             'recruitId': video_list['recruitId'],
             'videoId': video_id,
@@ -534,12 +561,18 @@ class ZhiHuiShu:
         }
 
         logger.debug(pre_note_info)
-        this['total_study_time'] = study_info['lv'][str(lesson_id)]['studyTotalTime']
+
+        # fix #5 不能学习没有small lesson的课程
+        try:
+            this['total_study_time'] = study_info['lv'][str(lesson_id)]['studyTotalTime']
+            study_status = study_info['lv'][str(lesson_id)]['watchState']
+        except KeyError:
+            this['total_study_time'] = study_info['lesson'][str(lesson_id)]['studyTotalTime']
+            study_status = study_info['lesson'][str(lesson_id)]['watchState']
 
         logger.info('从{}s处开始继续', this['video_progress'])
         # get video id
         lesson_name = None
-        study_status = study_info['lv'][str(lesson_id)]['watchState']
         logger.info('学习状态 {}', study_status)
 
         chapter_id = None
@@ -552,14 +585,34 @@ class ZhiHuiShu:
         flag = False
         for chapter in video_list['videoChapterDtos']:
             for section in chapter['videoLessons']:
-                for lesson in section['videoSmallLessons']:
-                    if lesson['id'] == lesson_id:
-                        lesson_name = lesson['name']
-                        section_id = section['id']
+
+                if 'videoSmallLessons' in section:
+                    for lesson in section['videoSmallLessons']:
+                        if lesson['id'] == lesson_id:
+                            lesson_name = lesson['name']
+                            chapter_id = chapter['id']
+                            section_id = section['id']
+                            video_id = lesson['videoId']
+                            flag = True
+                            break
+                else:
+                    if section['id'] == lesson_id:
+                        # 如果该条件成立，则说明该课程没有small lesson，然后构造表单
+                        lesson_name = section['name']
                         chapter_id = chapter['id']
-                        video_id = lesson['videoId']
+                        section_id = lesson_id
+                        video_id = section['videoId']
                         flag = True
                         break
+
+                # for lesson in section['videoSmallLessons']:
+                #     if lesson['id'] == lesson_id:
+                #         lesson_name = lesson['name']
+                #         section_id = section['id']
+                #         chapter_id = chapter['id']
+                #         video_id = lesson['videoId']
+                #         flag = True
+                #         break
         if not flag:
             raise RuntimeError('course not found')
 
@@ -573,7 +626,7 @@ class ZhiHuiShu:
             'course_id: {}, chapter_id: {}, section_id: {}, '
             'lesson_id: {}, video_id: {} lessonName: {}',
             chapter_id, chapter_id, section_id, lesson_id,
-            video_id, lesson['name']
+            video_id, lesson_name
         )
 
         def detect_finish():
