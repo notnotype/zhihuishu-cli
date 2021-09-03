@@ -45,11 +45,11 @@ def auth() -> str:
         pass
 
     wait = WebDriverWait(driver, 10)
-    wait.until(EC.url_contains('&u_atoken'))
+    wait.until(EC.url_contains('&u_atype'))
     url: str = driver.current_url
     driver.quit()
 
-    token = url[url.find('&u_atoken'):]
+    token = url[url.find('&u_atype'):]
     return token
 
 

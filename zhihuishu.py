@@ -18,6 +18,8 @@ from icecream import ic
 from apscheduler.schedulers.blocking import BlockingScheduler
 from execjs import compile
 
+from utils import Config
+
 
 def show_qr(img_path='qrcode.jpg'):
     try:
@@ -171,18 +173,13 @@ class ZhiHuiShu:
 
     def login_pwd(self, pwd: str):
         token = ''
-        if os.path.exists('.zhihuishurc'):
-            with open('.zhihuishurc', 'r', encoding='utf8') as f:
-                json_data = json.loads(f.read())
-                if 'token' not in json_data:
-                    logger.warning('条形验证token不在.zhihuishurc文件中，请手动填入，'
-                                   '或者运行`python zhihuishu-cli.py auth`命令来自动填入。')
-                token = json_data['token']
-        else:
-            logger.warning('没有.zhihuishurc文件')
+        # 考虑使用utils.Config
+        config = Config('.zhihuishurc')
+        token = config['token']
         url = f'https://passport.zhihuishu.com/login?pwd={pwd}&' \
               'service=https://onlineservice.zhihuishu.com/login/gologin' \
               + token
+        ic(url)
         response = self.get(url)
         response.raise_for_status()
         if len(response.history) < 2:

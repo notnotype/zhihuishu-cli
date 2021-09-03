@@ -16,15 +16,15 @@ import click
 from icecream import ic
 from huepy import *
 
+from utils import Config
 from zhihuishu import ZhiHuiShu
 
 
 def load_session(file='.zhihuishurc') -> ZhiHuiShu:
     """加载登录状态, 防止多次登录"""
-    with open(file, 'r') as f:
-        data = loads(f.read())
+    config = Config(file)
 
-    cookies = data['cookies']
+    cookies = config['cookies']
     cookies = pickle.loads(
         b64decode(cookies.encode())
     )
@@ -35,20 +35,20 @@ def load_session(file='.zhihuishurc') -> ZhiHuiShu:
 
 
 def save_session(zhs: ZhiHuiShu, file='.zhihuishurc'):
+    config = Config(file)
     cookies = b64encode(
         pickle.dumps(zhs.client.cookies)
     ).decode()
 
-    data = {
-        'datetime': datetime.now().strftime('%Y/%m/%d %T'),
-        'cookies': cookies
-    }
-    with open(file, 'w') as f:
-        f.write(dumps(data, indent=4, ensure_ascii=False))
+    config['datetime'] = datetime.now().strftime('%Y/%m/%d %T')
+    config['cookies'] = cookies
+
+    config.save()
 
 
 def awesome_login() -> ZhiHuiShu:
-    if os.path.exists('./.zhihuishurc'):
+    config = Config('.zhihuishurc')
+    if 'cookies' in config:
         zhs = load_session()
     else:
         zhs = ZhiHuiShu()
@@ -72,6 +72,9 @@ def course():
     zhs = awesome_login()
     share_courses = zhs.share_course()
 
+    if not share_courses:
+        click.echo('没有共享课程')
+        return
     for share_course in share_courses:
         text = \
             '课程名字: {} \n' \
@@ -267,14 +270,10 @@ def auth():
     from auth.auth import auth
     token = auth()
     click.echo(f'认证成功， token为："{token}"')
-    if not os.path.exists('.zhihuishurc'):
-        with open('.zhihuishurc', 'w', encoding='utf8') as f:
-            f.write("{}")
-    with open('.zhihuishurc', 'r', encoding='utf8') as f:
-        json_data = json.loads(f.read())
-        json_data['token'] = token
-    with open('.zhihuishurc', 'w', encoding='utf8') as f:
-        f.write(json.dumps(json_data, indent=4))
+
+    config = Config('.zhihuishurc')
+    config['token'] = token
+    config.save()
 
 
 if __name__ == '__main__':
