@@ -1,6 +1,6 @@
 requests~=2.25.1
 click~=7.1.2
-huepy
+huepy~=1.2.1
 pyexecjs
 websocket~=0.2.1
 websocket-client~=0.58.0
@@ -8,3 +8,4 @@ APScheduler~=3.7.0
 loguru~=0.5.3
 icecream~=2.1.0
 Pillow~=7.2.0
+selenium~=3.141.0

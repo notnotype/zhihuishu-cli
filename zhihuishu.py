@@ -1,3 +1,5 @@
+import json
+import os
 import time
 import random
 from time import sleep
@@ -168,9 +170,19 @@ class ZhiHuiShu:
         return password, uuid
 
     def login_pwd(self, pwd: str):
+        token = ''
+        if os.path.exists('.zhihuishurc'):
+            with open('.zhihuishurc', 'r', encoding='utf8') as f:
+                json_data = json.loads(f.read())
+                if 'token' not in json_data:
+                    logger.warning('条形验证token不在.zhihuishurc文件中，请手动填入，'
+                                   '或者运行`python zhihuishu-cli.py auth`命令来自动填入。')
+                token = json_data['token']
+        else:
+            logger.warning('没有.zhihuishurc文件')
         url = f'https://passport.zhihuishu.com/login?pwd={pwd}&' \
               'service=https://onlineservice.zhihuishu.com/login/gologin' \
-              '&u_atype=4&u_atoken=d7fb20b5-b14f-4bba-9435-b28b74fa55b3&u_asession=01-Uw5qPvufSaAFvx-4upqRxUPq0jeULs6QC5DJ3LM9BOhCZUeBQjzfnNVGUQZlESvX0KNBwm7Lovlpxjd_P_q4JsKWYrT3W_NKPr8w6oU7K9rMrJ8hw05slUSREFtert3TWACyXv5Z-q2IFvbMpHxP_J9EHXfqFOxCyFBuG8Ag_c&u_asig=05a2YLfi0MjH9tJMRSFtd2o_JJEzXjcLhm-fszHf90ZvdjxW4Mp2epM1-43Ooyy0-H-w8U65jpBtHF31B-QrcvO8hb0-nUgF7z3u3FrGcCQcxTMRnUsJ-IKnb9e7U_PeIVSc_anMxTMkXlrY3tJR_vmDM6sJ7QYGv1Rny1y5OBf607ozFsiUGsVAeSTqoZj3OTtOSucxbEFxA-Obtky0GrtTXA2HX1wMCOugOB7klIEuIldkfeZ7k7YGpWDiGP6wHRWlxCIsQpvHtXx4E4Ivy-HAlYcKt8HTlUtd_SDvujcAJnz6IwY36iH9Gr5_vdW0_0Uy2HQSnmbzsqjnh294Rx1PCbM8RN5M6ILBITpUDXM_adc8p4MNGF2AF0gAw8gVXx'
+              + token
         response = self.get(url)
         response.raise_for_status()
         if len(response.history) < 2:

@@ -5,6 +5,7 @@
 
 智慧树命令行接口, 是`zhihuishu.py`的命令行接口
 """
+import json
 import pickle
 import os
 from datetime import datetime
@@ -259,6 +260,21 @@ def set_cookies(cookies: str):
     zhs = ZhiHuiShu()
     zhs.set_cookies(cookies)
     save_session(zhs, ".zhihuishurc")
+
+
+@root.command()
+def auth():
+    from auth.auth import auth
+    token = auth()
+    click.echo(f'认证成功， token为："{token}"')
+    if not os.path.exists('.zhihuishurc'):
+        with open('.zhihuishurc', 'w', encoding='utf8') as f:
+            f.write("{}")
+    with open('.zhihuishurc', 'r', encoding='utf8') as f:
+        json_data = json.loads(f.read())
+        json_data['token'] = token
+    with open('.zhihuishurc', 'w', encoding='utf8') as f:
+        f.write(json.dumps(json_data, indent=4))
 
 
 if __name__ == '__main__':

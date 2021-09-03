@@ -22,6 +22,14 @@ cd zhihuishu-cli
 pip install -r requirements.txt
 ```
 
+### 过滑动验证
+
+```shell
+python zhihuishu-cli.py auth
+```
+
+该操作会打开浏览器（chrome浏览器）获取token，然后在`.zhihuishurc`文件中填入`token`字段
+
 ### 获取共享课程
 
 ```shell
@@ -102,12 +110,23 @@ python zhihuishu-cli.py deploy test:Test 4e50585944524258454a585858415f45 -c 3
 
 使用手机`知道app`扫码即可
 
+## `.zhihuishurc`文件说明
+
+- `datetime`: 上次登录时间
+
+- `token`: 条形验证token
+
+- `cookies`: 网站cookies
+
 ## 其他说明
 
 ### 删除`.zhihuishurc`文件即可清除本地cookie
-### 二维码120s后过期
 
-## 运行截图
+- 二维码120s后过期
+
+- 运行截图
+
+- 运行 `python zhihuishu-cli.py --help` 查看帮助
 
 ![运行截图](./images/chapter.png)
 
