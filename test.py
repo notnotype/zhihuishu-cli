@@ -1,6 +1,6 @@
 from icecream import ic
 
-from deploy import ZhiHuiShuCourseWorkerBlocking
+from ZhiHuiShuCourseWorkerBlocking import ZhiHuiShuCourseWorkerBlocking
 
 
 class Test(ZhiHuiShuCourseWorkerBlocking):
