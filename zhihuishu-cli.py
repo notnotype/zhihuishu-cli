@@ -69,6 +69,7 @@ def root():
 
 @root.command('share-course')
 def course():
+    """获取共享课程列表"""
     zhs = awesome_login()
     share_courses = zhs.share_course()
 
@@ -94,6 +95,7 @@ def course():
 @root.command('chapters')
 @click.argument('course_id', type=str, required=True)
 def _(course_id: int):
+    """获取课程下的chapter，需要course id"""
     ic(course_id)
 
     zhs = awesome_login()
@@ -115,6 +117,7 @@ def _(course_id: int):
 @click.argument('course_id', type=str, required=True)
 @click.argument('chapter_id', type=int, required=True)
 def _(course_id: str, chapter_id: int):
+    """获取chapter下的section列表"""
     ic(course_id, chapter_id)
 
     zhs = awesome_login()
@@ -148,6 +151,7 @@ def _(course_id: str, chapter_id: int):
 @click.argument('chapter_id', type=int, required=True)
 @click.argument('section_id', type=int, required=True)
 def _(course_id: str, chapter_id: int, section_id: int):
+    """获取section下的lesson列表"""
     ic(course_id, chapter_id, section_id)
 
     zhs = awesome_login()
@@ -193,6 +197,7 @@ def login():
 @click.argument('course_id', type=str, required=True)
 @click.argument('lesson_id', type=int, required=True)
 def study(course_id: str, lesson_id: int):
+    """刷一个视频"""
     click.echo(f'study {course_id} {lesson_id}')
     zhs = awesome_login()
 
@@ -210,6 +215,7 @@ def study(course_id: str, lesson_id: int):
 @click.option('--count', '-c', type=int, required=False, default=2)
 @click.argument('course_id', type=str, required=True)
 def run_course(course_id: str, hour: int, minute: int, second: int, count: int):
+    """每天定时自动刷课，用于刷平时分"""
     from ZhiHuiShuCourseWorkerBlocking import ZhiHuiShuCourseWorkerBlocking
     ic(course_id, hour, minute, second, count)
     zhscw = ZhiHuiShuCourseWorkerBlocking(
@@ -242,6 +248,7 @@ def deploy_mirai(course_id: str, hour: int, minute: int, second: int, count: int
 @click.argument('entry', type=str, required=True)
 @click.argument('course_id', type=str, required=False)
 def deploy(**kwargs):
+    """自定义每天定时自动刷课，用于刷平时分"""
     from ZhiHuiShuCourseWorkerBlocking import ZhiHuiShuCourseWorkerBlocking
     from importlib import import_module
 
@@ -260,6 +267,7 @@ def deploy(**kwargs):
 @root.command()
 @click.argument('cookies', type=str, required=True)
 def set_cookies(cookies: str):
+    """设置cookies"""
     zhs = ZhiHuiShu()
     zhs.set_cookies(cookies)
     save_session(zhs, ".zhihuishurc")
@@ -267,6 +275,7 @@ def set_cookies(cookies: str):
 
 @root.command()
 def auth():
+    """浏览器认证"""
     from auth.auth import auth
     token = auth()
     click.echo(f'认证成功， token为："{token}"')
