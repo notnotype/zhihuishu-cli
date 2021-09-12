@@ -63,9 +63,9 @@ class Mirai:
         raise MiraiStatusError(msg)
 
     def auth(self, qq: int) -> None:
-        url = urljoin(self.base_url, '/auth')
+        url = urljoin(self.base_url, '/verify')
         data = {
-            "authKey": self.auth_key
+            "verifyKey": self.auth_key
         }
         response = self.session.post(url=url, data=dumps(data))
         response.raise_for_status()
@@ -78,7 +78,7 @@ class Mirai:
         self._verify(qq)
 
     def _verify(self, qq: int) -> None:
-        url = urljoin(self.base_url, '/verify')
+        url = urljoin(self.base_url, '/bind')
         data = {
             "sessionKey": self.token,
             "qq": qq
