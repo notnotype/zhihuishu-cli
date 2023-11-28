@@ -1,5 +1,7 @@
 <h1 align="center">zhihuishu-cli</h1>
 
+> 此仓库已年久失修。类似的新脚本见：https://github.com/VermiIIi0n/fuckZHS
+
 > 一个`智慧树`(`知到app`)的终端接口
 >
 > a command line interface of `zhihuishu`(`zhidao app`)
